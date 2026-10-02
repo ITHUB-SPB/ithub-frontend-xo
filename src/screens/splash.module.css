@@ -1,0 +1,30 @@
+.main {
+  background-color: #3d7ad6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  width: 100%;
+}
+
+.logo {
+  width: 39dvw;
+  height: auto;
+  cursor: pointer;
+  transition: all 0.4s ease-out;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.bgIcon {
+  width: 95px;
+  height: auto;
+  transform: rotate(-23deg);
+  filter: blur(11px);
+  position: absolute;
+  top: 15dvh;
+  left: 15dvw;
+}

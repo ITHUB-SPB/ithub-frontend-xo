@@ -1,17 +1,18 @@
-export type GameState = "start" | "game";
-
-export type Board = Array<Move | null>;
+export type AppState = "idle" | "settings" | "game" | "results";
 
 export type Move = "x" | "o";
 
-export type Index = number; // TODO
+export type GameStatus = `${Move}-move` | `${Move}-wins` | "draw";
+
+export type Board = Array<Move | null>;
 
 export type Player = {
   name: string;
   color: string;
+  // widget: string;
 };
 
 export type Players = {
-  player1: Player;
-  player2: Player;
+  x: Player;
+  o: Player;
 };
