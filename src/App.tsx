@@ -1,15 +1,21 @@
 import { useEffect, useState, useContext } from "react";
-import GameScreen from "./screens/game";
-import StartScreen from "./screens/start";
 
-import { boardContext } from "./context";
-import { checkWinner } from "./lib";
-import type { GameState, Board, Players } from "./types";
+import { gameContext } from "./context";
+import { SplashScreen, SettingsScreen, GameScreen, ResultsScreen } from "./screens";
+import type { AppState, GameState, Board, Move, Players } from "./types";
+
+function checkWinner(board: Board): Move | null {
+  if (board[0] && board[0] === board[1] && board[1] === board[2]) {
+    return board[0];
+  }
+
+  return null;
+}
 
 export default function App() {
-  const [gameState, updateGameState] = useState<GameState>("start");
+  const [appState, updateAppState] = useState<AppState>("idle");
   const [players, setPlayers] = useState<Players | null>(null);
-  const { board, updateBoard } = useContext(boardContext);
+  const { board, status, updateBoard } = useContext(gameContext);
 
   useEffect(() => {
     const storagePlayers = localStorage.getItem("xo_players");
@@ -19,38 +25,40 @@ export default function App() {
       storagePlayers !== null
         ? JSON.parse(storagePlayers)
         : {
-            player1: { name: "Игрок 1", color: "salmon" },
-            player2: { name: "Игрок 2", color: "magenta" },
-          },
+          player1: { name: "Игрок 1", color: "salmon" },
+          player2: { name: "Игрок 2", color: "magenta" },
+        },
     );
 
     if (storageGame !== null) {
       const storageBoard: Board = JSON.parse(storageGame);
       if (storageBoard.some((cell) => cell !== null)) {
         updateBoard(JSON.parse(storageGame));
-        updateGameState("game");
+        updateAppState("game");
       }
     }
   }, []);
 
   useEffect(() => {
     if (players) {
-      localStorage.setItem("xo_players", JSON.stringify(players));
+      localStorage.setItem("xo__players", JSON.stringify(players));
     }
   }, [players]);
 
-  useEffect(() => {
-    if (board) {
-      localStorage.setItem("xo_game", JSON.stringify(board));
-    }
-    console.log(checkWinner(board));
-  }, [board]);
 
   const screens = {
-    start: <StartScreen players={players} setPlayers={setPlayers} updateScreen={updateGameState} />,
-    game: <GameScreen players={players} updateGameState={updateGameState} />,
-    // result: <GameScreen players={players} />,
+    idle: <SplashScreen updateAppState={updateAppState} />,
+    settings: (
+      <SettingsScreen players={players} setPlayers={setPlayers} updateScreen={updateGameState} />
+    ),
+    game: (
+      <GameScreen
+        players={players}
+        updateAppState={updateAppState}
+      />
+    ),
+    results: <ResultsScreen />,
   };
 
-  return screens[gameState];
+  return screens[appState];
 }

@@ -5,15 +5,19 @@ import {
   type PropsWithChildren,
   type SetStateAction,
 } from "react";
-import type { Board } from "./types";
 
-export const boardContext = createContext<{
+import type { Board, GameStatus } from "./types";
+
+export const gameContext = createContext<{
   board: Board;
+  status: GameStatus;
   updateBoard: Dispatch<SetStateAction<Board>>;
+  updateStatus: Dispatch<SetStateAction<GameStatus>>;
 }>(undefined!);
 
-export function BoardContext({ children }: PropsWithChildren) {
+export function GameContext({ children }: PropsWithChildren) {
   const [board, updateBoard] = useState<Board>(Array(9).fill(null));
+  const [status, updateStatus] = useState<GameStatus>("x-move");
 
-  return <boardContext.Provider value={{ board, updateBoard }}>{children}</boardContext.Provider>;
+  return <gameContext.Provider value={{ board, updateBoard, status, updateStatus }}>{children}</gameContext.Provider>;
 }

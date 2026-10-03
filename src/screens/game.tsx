@@ -1,32 +1,43 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
-import Board from "../components/board";
-import Timer from "../components/timer";
-import type { GameState, Move, Players } from "../types";
+import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
+import type { AppState, Board, Move, Players } from "../types";
+
+import BoardComponent from "@/components/board";
+import TimerComponent from "@/components/timer";
+import LegendComponent from '@/components/legend'
 
 type GameScreenProps = {
   players: Players | null;
-  updateGameState: Dispatch<SetStateAction<GameState>>;
+  updateAppState: Dispatch<SetStateAction<AppState>>;
 };
 
-export default function GameScreen({ players, updateGameState }: GameScreenProps) {
+function checkWinner(board: Board): Move | null {
+  if (board[0] && board[0] === board[1] && board[1] === board[2]) {
+    return board[0];
+  }
+
+  return null;
+}
+
+export default function GameScreen({ players, updateAppState }: GameScreenProps) {
   const [currentMove, updateMove] = useState<Move>("x");
+
+  useEffect(() => {
+    if (board) {
+      localStorage.setItem("xo__game", JSON.stringify(board));
+    }
+    console.log(checkWinner(board));
+  }, [board]);
+
 
   return (
     <div>
       <h1>XO</h1>
-      <section>
-        <section style={{ backgroundColor: players?.player1.color }}>
-          {players?.player1.name} (X) {currentMove === "x" && "active"}
-        </section>
-        <section style={{ backgroundColor: players?.player2.color }}>
-          {players?.player2.name} (O) {currentMove === "o" && "active"}
-        </section>
-      </section>
       <div>
-        <Board currentMove={currentMove} updateMove={updateMove} />
-        <Timer />
+        <LegendComponent />
+        <BoardComponent currentMove={currentMove} updateMove={updateMove} />
+        <TimerComponent />
       </div>
-      <button onClick={() => updateGameState("start")}>Сбросить игру</button>
+      <button onClick={() => updateAppState("settings")}>Сбросить игру</button>
     </div>
   );
 }

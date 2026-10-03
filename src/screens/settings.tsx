@@ -1,13 +1,13 @@
 import { useRef, useEffect, type SubmitEvent } from "react";
 import type { Players } from "../types";
 
-type StartScreenProps = {
+type SettingsScreenProps = {
   players: Players | null;
   setPlayers: any;
   updateScreen: any;
 };
 
-export default function StartScreen({ players, setPlayers, updateScreen }: StartScreenProps) {
+export default function SettingsScreen({ players, setPlayers, updateScreen }: SettingsScreenProps) {
   const inputRef = useRef<HTMLInputElement>(undefined!);
 
   useEffect(() => {
