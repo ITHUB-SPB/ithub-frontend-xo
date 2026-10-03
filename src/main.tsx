@@ -3,12 +3,12 @@ import { createRoot } from "react-dom/client";
 
 import "./index.css";
 import App from "./App.tsx";
-import { BoardContext } from "./context.tsx";
+import { GameContext } from "./context.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BoardContext>
+    <GameContext>
       <App />
-    </BoardContext>
+    </GameContext>
   </StrictMode>,
 );

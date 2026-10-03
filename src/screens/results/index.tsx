@@ -1,7 +1,7 @@
 import x from "@/assets/x.svg";
 import o from "@/assets/o.svg";
 
-import classes from "./splash.module.css";
+import classes from "../splash/splash.module.css";
 
 export default function ResultsScreen() {
   return (

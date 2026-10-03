@@ -8,8 +8,7 @@ export type Board = Array<Move | null>;
 
 export type Player = {
   name: string;
-  color: string;
-  // widget: string;
+  color: string; // or widget: string;
 };
 
 export type Players = {

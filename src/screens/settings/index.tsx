@@ -1,5 +1,7 @@
 import { useRef, useEffect, type SubmitEvent } from "react";
-import type { Players } from "../types";
+
+import type { Players } from "@/types";
+import classes from "./settings.module.css";
 
 type SettingsScreenProps = {
   players: Players | null;
@@ -35,17 +37,19 @@ export default function SettingsScreen({ players, setPlayers, updateScreen }: Se
   };
 
   return (
-    <form action="" method="post" onSubmit={handleSubmit}>
-      <h2>Стартовый экран</h2>
-      <section>
-        <input ref={inputRef} type="text" name="namePlayer1" placeholder="Игрок 1" required />
-        <input type="color" name="colorPlayer1" />
-      </section>
-      <section>
-        <input type="text" name="namePlayer2" placeholder="Игрок 2" required />
-        <input type="color" name="colorPlayer2" />
-      </section>
-      <button type="submit">Начать</button>
-    </form>
+    <main className={classes.main}>
+      <form action="" method="post" onSubmit={handleSubmit}>
+        <h2>Стартовый экран</h2>
+        <section>
+          <input ref={inputRef} type="text" name="namePlayer1" placeholder="Игрок 1" required />
+          <input type="color" name="colorPlayer1" />
+        </section>
+        <section>
+          <input type="text" name="namePlayer2" placeholder="Игрок 2" required />
+          <input type="color" name="colorPlayer2" />
+        </section>
+        <button type="submit">Начать</button>
+      </form>
+    </main>
   );
 }

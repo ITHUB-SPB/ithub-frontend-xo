@@ -1,7 +1,8 @@
 import { useContext, type Dispatch, type SetStateAction } from "react";
-import { boardContext } from "../context";
+
+import { gameContext } from "@/context";
+import type { Board, Move } from "@/types";
 import classes from "./board.module.css";
-import type { Board, Move, Index } from "../types";
 
 type BoardProps = {
   currentMove: Move;
@@ -9,9 +10,9 @@ type BoardProps = {
 };
 
 export default function Board({ currentMove, updateMove }: BoardProps) {
-  const { board, updateBoard } = useContext(boardContext);
+  const { board, updateBoard } = useContext(gameContext);
 
-  const handleClick = (fieldIndex: Index) => {
+  const handleClick = (fieldIndex: number) => {
     updateBoard((state) => {
       return [...state.slice(0, fieldIndex), currentMove, ...state.slice(fieldIndex + 1)];
       // const newState = [...state]
