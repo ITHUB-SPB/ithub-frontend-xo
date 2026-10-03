@@ -19,12 +19,21 @@
   transform: scale(1.05);
 }
 
-.bgIcon {
+.bgIconX,
+.bgIconO {
   width: 95px;
   height: auto;
-  transform: rotate(-23deg);
   filter: blur(11px);
   position: absolute;
+}
+
+.bgIconX {
+  transform: rotate(-23deg);
   top: 15dvh;
   left: 15dvw;
+}
+
+.bgIconO {
+  bottom: 15dvh;
+  right: 15dvw;
 }

@@ -14,8 +14,8 @@ type SplashScreenProps = {
 export default function SplashScreen({ updateAppState }: SplashScreenProps) {
   return (
     <main className={classes.main}>
-      <img src={x} className={classes.bgIcon} />
-      <img src={o} className={classes.bgIcon} />
+      <img src={x} className={classes.bgIconX} />
+      <img src={o} className={classes.bgIconO} />
       <img
         onClick={() => updateAppState("settings")}
         className={classes.logo}

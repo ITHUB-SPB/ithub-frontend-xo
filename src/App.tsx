@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 
 import { gameContext } from "./context";
 import { SplashScreen, SettingsScreen, GameScreen, ResultsScreen } from "@/screens";
-import type { AppState, GameStatus, Board, Move, Players } from "@/types";
+import type { AppState, Board, Move, Players } from "@/types";
 
 function checkWinner(board: Board): Move | null {
   if (board[0] && board[0] === board[1] && board[1] === board[2]) {
@@ -15,18 +15,18 @@ function checkWinner(board: Board): Move | null {
 export default function App() {
   const [appState, updateAppState] = useState<AppState>("idle");
   const [players, setPlayers] = useState<Players | null>(null);
-  const { board, status, updateBoard } = useContext(gameContext);
+  const { updateBoard } = useContext(gameContext);
 
   useEffect(() => {
-    const storagePlayers = localStorage.getItem("xo_players");
-    const storageGame = localStorage.getItem("xo_game");
+    const storagePlayers = localStorage.getItem("xo__players");
+    const storageGame = localStorage.getItem("xo__game");
 
     setPlayers(
       storagePlayers !== null
         ? JSON.parse(storagePlayers)
         : {
-            player1: { name: "Игрок 1", color: "salmon" },
-            player2: { name: "Игрок 2", color: "magenta" },
+            x: { name: "Игрок 1", color: "salmon" },
+            o: { name: "Игрок 2", color: "magenta" },
           },
     );
 
@@ -48,7 +48,7 @@ export default function App() {
   const screens = {
     idle: <SplashScreen updateAppState={updateAppState} />,
     settings: (
-      <SettingsScreen players={players} setPlayers={setPlayers} updateScreen={updateAppState} />
+      <SettingsScreen players={players} setPlayers={setPlayers} updateAppState={updateAppState} />
     ),
     game: <GameScreen players={players} updateAppState={updateAppState} />,
     results: <ResultsScreen />,
