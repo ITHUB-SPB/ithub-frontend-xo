@@ -1,22 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Timer() {
+type TimerProps = {
+  turnKey: number;
+  onTimeout: () => void;
+};
+
+export default function Timer({ turnKey, onTimeout }: TimerProps) {
   const [remaining, setRemaining] = useState(10);
-  const intervalRef = useRef<number>(undefined!);
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setRemaining((value) => {
-        if (value <= 0) {
-          clearInterval(intervalRef.current);
-          return 10;
-        }
-        return value - 1;
-      });
+    setRemaining(10);
+    const interval = window.setInterval(() => {
+      setRemaining((value) => value - 1);
     }, 1000);
+    return () => window.clearInterval(interval);
+  }, [turnKey]);
 
-    return () => clearInterval(intervalRef.current);
-  }, []);
+  useEffect(() => {
+    if (remaining <= 0) onTimeout();
+  }, [remaining, onTimeout]);
 
-  return <span>{remaining}</span>;
+  return <span aria-live="polite">00:{remaining.toString().padStart(2, "0")}</span>;
 }

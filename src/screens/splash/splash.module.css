@@ -1,39 +1,40 @@
 .main {
-  background-color: #3d7ad6;
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(circle at 50% 40%, #f8fbff 0, #e9f0fb 55%, #dae5f4 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
-  max-height: 100dvh;
+  min-height: 100dvh;
   width: 100%;
 }
 
 .logo {
-  width: 39dvw;
+  width: min(430px, 68vw);
   height: auto;
-  cursor: pointer;
-  transition: all 0.4s ease-out;
+  display: block;
 }
 
-.logo:hover {
-  transform: scale(1.05);
-}
+.logoButton { z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 30px; background: transparent; color: #536175; font-weight: 650; transition: transform .25s ease; }
+.logoButton:hover { transform: scale(1.035); }
+.logoButton span { padding: 9px 18px; border-radius: 999px; background: rgba(255,255,255,.78); box-shadow: 0 6px 20px rgba(30,50,80,.08); }
 
-.bgIconX,
-.bgIconO {
-  width: 95px;
-  height: auto;
-  filter: blur(11px);
+.bgIconX, .bgIconO {
+  width: clamp(90px, 12vw, 170px);
+  opacity: .09;
   position: absolute;
+  filter: grayscale(1);
+  pointer-events: none;
 }
 
 .bgIconX {
-  transform: rotate(-23deg);
-  top: 15dvh;
-  left: 15dvw;
+  transform: rotate(-18deg);
+  top: 9dvh;
+  left: 9dvw;
 }
 
 .bgIconO {
-  bottom: 15dvh;
-  right: 15dvw;
+  bottom: 9dvh;
+  right: 9dvw;
 }

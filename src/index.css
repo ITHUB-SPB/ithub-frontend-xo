@@ -1,33 +1,22 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color: #172033;
+  background: #eef3fb;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100dvh;
-  max-height: 100dvh;
+  background: #eef3fb;
 }
 
 h1 {
@@ -35,61 +24,33 @@ h1 {
   line-height: 1.1;
 }
 
+button, input { font: inherit; }
+
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  border: 0;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
 
-button:hover {
-  border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+button:focus-visible, input:focus-visible { outline: 3px solid rgba(37, 99, 235, .28); outline-offset: 3px; }
 
 #root {
   width: 100%;
-  height: 100dvh;
-  display: flex;
-  place-items: center;
+  min-height: 100dvh;
 }
 
-.logo {
-  height: 40dvh;
-  will-change: filter;
-  transition: filter 300ms;
-}
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 24px; border-radius: 14px; color: white; background: #2563eb; font-weight: 750; box-shadow: 0 8px 20px rgba(37,99,235,.2); transition: transform .18s, background .18s, box-shadow .18s; }
+.button:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 11px 24px rgba(37,99,235,.26); }
+.buttonSecondary { color: #334155; background: white; border: 1px solid #dbe3ef; box-shadow: 0 5px 14px rgba(28,39,60,.07); }
+.buttonSecondary:hover { background: #f8fafc; }
+.buttonDanger { background: #dc2626; box-shadow: 0 8px 20px rgba(220,38,38,.2); }
+.buttonDanger:hover { background: #b91c1c; }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+.dialogBackdrop { position: fixed; z-index: 20; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(15,23,42,.55); backdrop-filter: blur(6px); }
+.dialog { width: min(440px, 100%); padding: 32px; border-radius: 24px; background: white; text-align: center; box-shadow: 0 30px 80px rgba(15,23,42,.25); animation: dialog-in .22s ease-out; }
+.dialogMark { display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 15px; border-radius: 50%; color: #2563eb; background: #e8f0ff; font-size: 28px; font-weight: 800; }
+.dialog h2 { margin: 0 0 8px; font-size: 25px; }
+.dialog p { margin: 0; color: #64748b; }
+.dialogActions { display: flex; justify-content: center; gap: 12px; margin-top: 26px; }
+@keyframes dialog-in { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+@media (max-width: 520px) { .dialogActions { flex-direction: column-reverse; } .dialogActions .button { width: 100%; } }

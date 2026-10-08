@@ -1,46 +1,28 @@
-import { useState } from "react";
-
-import oIcon from "@/assets/o.svg";
-import xIcon from "@/assets/x.svg";
+import type { Move, Players } from "@/types";
 import classes from "./legend.module.css";
 
-type PlayerNameProps = {
-  setName: (newName: string) => void;
-  name: string;
+type LegendProps = {
+  players: Players;
+  currentMove: Move;
 };
 
-function PlayerName({ name, setName }: PlayerNameProps) {
-  const [isEditing, setEditing] = useState(false);
-
+function PlayerName({ name }: { name: string }) {
   return (
-    <input
-      onDoubleClick={() => setEditing(true)}
-      size={1}
-      className={classes.input}
-      value={name}
-      readOnly={!isEditing}
-    />
+    <span className={classes.name}>{name}</span>
   );
 }
 
-export default function Legend() {
+export default function Legend({ players, currentMove }: LegendProps) {
   return (
     <section className={classes.legend}>
-      {/* <section style={{ backgroundColor: players?.x.color }}>
-                {players?.x.name} (X) {currentMove === "x" && "active"}
-            </section>
-            <section style={{ backgroundColor: players?.o.color }}>
-                {players?.o.name} (O) {currentMove === "o" && "active"}
-            </section> */}
-
-      <section className={classes.legend__item}>
-        <img src={xIcon} className={classes.legend__icon} />
-        <PlayerName name="Player1" setName={() => {}} />
+      <section className={`${classes.legend__item} ${currentMove === "x" ? classes.active : ""}`}>
+        <span className={classes.legend__icon} style={{ color: players.x.color }}>X</span>
+        <div><PlayerName name={players.x.name} /><small>{currentMove === "x" ? "Сейчас ходит" : "Ожидает"}</small></div>
       </section>
-
-      <section className={classes.legend__item}>
-        <img src={oIcon} className={classes.legend__icon} />
-        <PlayerName name="Player2" setName={() => {}} />
+      <span className={classes.vs}>VS</span>
+      <section className={`${classes.legend__item} ${currentMove === "o" ? classes.active : ""}`}>
+        <span className={classes.legend__icon} style={{ color: players.o.color }}>O</span>
+        <div><PlayerName name={players.o.name} /><small>{currentMove === "o" ? "Сейчас ходит" : "Ожидает"}</small></div>
       </section>
     </section>
   );
