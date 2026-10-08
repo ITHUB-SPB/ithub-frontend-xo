@@ -4,40 +4,40 @@ import { gameContext } from "./context";
 import { SplashScreen, SettingsScreen, GameScreen, ResultsScreen } from "@/screens";
 import type { AppState, Board, Move, Players } from "@/types";
 
-function checkWinner(board: Board): Move | null {
-  if (board[0] && board[0] === board[1] && board[1] === board[2]) {
-    return board[0];
-  }
+// function checkWinner(board: Board): Move | null {
+//   if (board[0] && board[0] === board[1] && board[1] === board[2]) {
+//     return board[0];
+//   }
 
-  return null;
-}
+//   return null;
+// }
 
 export default function App() {
   const [appState, updateAppState] = useState<AppState>("idle");
   const [players, setPlayers] = useState<Players | null>(null);
-  const { updateBoard } = useContext(gameContext);
+  // const { updateBoard } = useContext(gameContext);
 
-  useEffect(() => {
-    const storagePlayers = localStorage.getItem("xo__players");
-    const storageGame = localStorage.getItem("xo__game");
+  // useEffect(() => {
+  //   // const storagePlayers = localStorage.getItem("xo__players");
+  //   const storageGame = localStorage.getItem("xo__game");
 
-    setPlayers(
-      storagePlayers !== null
-        ? JSON.parse(storagePlayers)
-        : {
-            x: { name: "Игрок 1", color: "salmon" },
-            o: { name: "Игрок 2", color: "magenta" },
-          },
-    );
+  //   // setPlayers(
+  //   //   storagePlayers !== null
+  //   //     ? JSON.parse(storagePlayers)
+  //   //     : {
+  //   //         x: { name: "Игрок 1", color: "salmon" },
+  //   //         o: { name: "Игрок 2", color: "magenta" },
+  //   //       },
+  //   // );
 
-    if (storageGame !== null) {
-      const storageBoard: Board = JSON.parse(storageGame);
-      if (storageBoard.some((cell) => cell !== null)) {
-        updateBoard(JSON.parse(storageGame));
-        updateAppState("game");
-      }
-    }
-  }, []);
+  //   if (storageGame !== null) {
+  //     const storageBoard: Board = JSON.parse(storageGame);
+  //     if (storageBoard.some((cell) => cell !== null)) {
+  //       updateBoard(JSON.parse(storageGame));
+  //       updateAppState("game");
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (players) {
