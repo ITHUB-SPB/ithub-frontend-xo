@@ -12,6 +12,15 @@ type SplashScreenProps = {
 };
 
 export default function SplashScreen({ updateAppState }: SplashScreenProps) {
+  if (localStorage.getItem("xo__game")) {
+    return (
+      <>
+        <button onClick={() => updateAppState("settings")}>start new game</button>
+        <button onClick={() => updateAppState("game")}>continue</button>
+      </>
+    );
+  }
+
   return (
     <main className={classes.main}>
       <img src={x} className={classes.bgIconX} />
