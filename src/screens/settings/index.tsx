@@ -3,7 +3,7 @@ import {
     useEffect,
     type Dispatch,
     type SetStateAction,
-    type FormEvent,
+    type SubmitEvent,
 } from "react";
 
 import type { AppState, Move, Players } from "@/types";
@@ -40,12 +40,20 @@ export default function SettingsScreen({
         }));
     };
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        const xName = players.x.name.trim();
+        const oName = players.o.name.trim();
+
+        if (!xName || !oName) {
+            return;
+        }
+
         setPlayers((current) => ({
-            x: { ...current.x, name: current.x.name.trim() },
-            o: { ...current.o, name: current.o.name.trim() },
+            ...current,
+            x: { ...current.x, name: xName },
+            o: { ...current.o, name: oName },
         }));
 
         updateAppState("game");
@@ -58,7 +66,7 @@ export default function SettingsScreen({
 
                 <section>
                     <label>
-                        Игрок за крестики
+                        Игрок 1 -
                         <input
                             ref={inputRef}
                             type="text"
@@ -73,7 +81,7 @@ export default function SettingsScreen({
                     </label>
 
                     <label>
-                        Цвет крестиков
+                        - Цвет крестиков -
                         <input
                             type="color"
                             name="colorPlayer1"
@@ -87,7 +95,7 @@ export default function SettingsScreen({
 
                 <section>
                     <label>
-                        Игрок за нолики
+                        Игрок 2 -
                         <input
                             type="text"
                             name="namePlayer2"
@@ -101,7 +109,7 @@ export default function SettingsScreen({
                     </label>
 
                     <label>
-                        Цвет ноликов
+                        - Цвет ноликов -
                         <input
                             type="color"
                             name="colorPlayer2"

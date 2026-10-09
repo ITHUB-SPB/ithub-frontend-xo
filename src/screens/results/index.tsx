@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { gameContext } from "@/context";
 import { BoardComponent } from "@/components";
 import type { Players } from "@/types";
-import classes from "../splash/splash.module.css";
+import classes from "./results.module.css";
 
 type ResultsScreenProps = {
     players: Players;
