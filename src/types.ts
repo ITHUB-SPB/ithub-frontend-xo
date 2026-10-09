@@ -7,11 +7,16 @@ export type GameStatus = `${Move}-move` | `${Move}-wins` | "draw";
 export type Board = Array<Move | null>;
 
 export type Player = {
-  name: string;
-  color: string; // or emoji: string;
+    name: string;
+    color: string; // or emoji: string;
 };
 
 export type Players = {
-  x: Player;
-  o: Player;
+    x: Player;
+    o: Player;
+};
+
+export type SavedGame = {
+    move: Move;
+    board: Board;
 };
