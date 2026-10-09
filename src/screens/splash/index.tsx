@@ -26,12 +26,12 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
       if (storageBoard.some((cell) => cell !== null)) {
         setSavedBoard(storageBoard);
       }
-    } else setSavedBoard(null);
+    }
   }, []);
 
   return (
     <main className={classes.main}>
-      {savedBoard === null && (
+      {savedBoard === null ? (
         <>
           <img src={x} className={classes.bgIconX} />
           <img src={o} className={classes.bgIconO} />
@@ -42,10 +42,13 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
             alt="logo"
           />
         </>
-      )}
-      {savedBoard !== null && (
+      ) : (
         <>
-          <button onClick={() => updateAppState("settings")}>
+          <button
+            onClick={() => {
+              updateAppState("settings");
+            }}
+          >
             Start new game
           </button>
 

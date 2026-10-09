@@ -19,14 +19,13 @@ function checkWinner(board: Board): Move | null {
 }
 
 export default function GameScreen({ players, updateAppState }: GameScreenProps) {
-  const { board } = useContext(gameContext);
+  const { board, updateBoard } = useContext(gameContext);
   const [currentMove, updateMove] = useState<Move>("x");
 
   useEffect(() => {
     if (board) {
       localStorage.setItem("xo__game", JSON.stringify(board));
     }
-    console.log(checkWinner(board));
   }, [board]);
 
   return (
@@ -35,9 +34,18 @@ export default function GameScreen({ players, updateAppState }: GameScreenProps)
       <div>
         <LegendComponent />
         <BoardComponent currentMove={currentMove} updateMove={updateMove} />
-        <TimerComponent />
       </div>
-      <button onClick={() => updateAppState("settings")}>Сбросить игру</button>
+      <TimerComponent />
+
+      <button
+        onClick={() => {
+          updateAppState("settings");
+          localStorage.removeItem("xo__game");
+          updateBoard(Array(9).fill(null));
+        }}
+      >
+        Сбросить игру
+      </button>
     </main>
   );
 }

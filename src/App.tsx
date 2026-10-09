@@ -15,29 +15,6 @@ import type { AppState, Board, Move, Players } from "@/types";
 export default function App() {
   const [appState, updateAppState] = useState<AppState>("idle");
   const [players, setPlayers] = useState<Players | null>(null);
-  // const { updateBoard } = useContext(gameContext);
-
-  // useEffect(() => {
-  //   // const storagePlayers = localStorage.getItem("xo__players");
-  //   const storageGame = localStorage.getItem("xo__game");
-
-  //   // setPlayers(
-  //   //   storagePlayers !== null
-  //   //     ? JSON.parse(storagePlayers)
-  //   //     : {
-  //   //         x: { name: "Игрок 1", color: "salmon" },
-  //   //         o: { name: "Игрок 2", color: "magenta" },
-  //   //       },
-  //   // );
-
-  //   if (storageGame !== null) {
-  //     const storageBoard: Board = JSON.parse(storageGame);
-  //     if (storageBoard.some((cell) => cell !== null)) {
-  //       updateBoard(JSON.parse(storageGame));
-  //       updateAppState("game");
-  //     }
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (players) {

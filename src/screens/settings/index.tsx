@@ -5,6 +5,7 @@ import {
   type SetStateAction,
   type SubmitEvent,
   type InputEvent,
+  type ChangeEvent,
 } from "react";
 
 import type { AppState, Move, Players } from "@/types";
@@ -32,17 +33,22 @@ export default function SettingsScreen({
     event.stopPropagation();
 
     const data = new FormData(event.target);
+    const storagePlayers = localStorage.getItem("xo__players");
 
-    setPlayers({
-      x: {
-        name: data.get("namePlayer1")!.toString(),
-        color: data.get("colorPlayer1")!.toString(),
-      },
-      o: {
-        name: data.get("namePlayer2")!.toString(),
-        color: data.get("colorPlayer2")!.toString(),
-      },
-    });
+    setPlayers(
+      storagePlayers !== null
+        ? JSON.parse(storagePlayers)
+        : {
+            x: {
+              name: data.get("namePlayer1")!.toString(),
+              color: data.get("colorPlayer1")!.toString(),
+            },
+            o: {
+              name: data.get("namePlayer2")!.toString(),
+              color: data.get("colorPlayer2")!.toString(),
+            },
+          },
+    );
 
     updateAppState("game");
   };
@@ -65,12 +71,37 @@ export default function SettingsScreen({
     });
   };
 
+  const handlePlayerNameChange = (event: ChangeEvent<HTMLInputElement>, player: Move) => {
+    setPlayers((currentState) => {
+      if (!currentState) {
+        return currentState;
+      }
+
+      const newName = (event.target as HTMLInputElement).value;
+
+      return {
+        ...currentState,
+        [player]: {
+          ...currentState[player],
+          name: newName,
+        },
+      };
+    });
+  };
+
   return (
     <main className={classes.main}>
       <form action="" method="post" onSubmit={handleSubmit}>
         <h2>Стартовый экран</h2>
         <section>
-          <input ref={inputRef} type="text" name="namePlayer1" value={players?.x.name} required />
+          <input
+            ref={inputRef}
+            type="text"
+            name="namePlayer1"
+            value={players?.x.name}
+            onChange={(event) => handlePlayerNameChange(event, "x")}
+            required
+          />
           <input
             value={players?.x.color}
             onInput={(event) => {
@@ -81,7 +112,13 @@ export default function SettingsScreen({
           />
         </section>
         <section>
-          <input type="text" name="namePlayer2" value={players?.o.name} required />
+          <input
+            type="text"
+            name="namePlayer2"
+            value={players?.o.name}
+            onChange={(event) => handlePlayerNameChange(event, "o")}
+            required
+          />
           <input
             value={players?.o.color}
             onInput={(event) => {
