@@ -54,15 +54,29 @@ export default function GameScreen({ players, updateAppState }: GameScreenProps)
     }
   }, [board, updateStatus]);
 
+  const makeRandomMove = () => {
+    const emptyCells = board
+      .map((cell, index) => (cell === null ? index : -1))
+      .filter((index) => index !== -1);
+
+    if (emptyCells.length === 0) return;
+
+    const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+    const newBoard = [...board];
+    newBoard[randomIndex] = currentMove;
+
+    updateBoard(newBoard);
+    updateMove(currentMove === "x" ? "o" : "x");
+  };
+
   return (
     <main className={classes.main}>
-      <TimerComponent />
-      <h1>XO</h1>
+      <TimerComponent onTimeEnd={makeRandomMove} currentMove={currentMove} /> <h1>XO</h1>
       <div>
         <LegendComponent />
         <BoardComponent currentMove={currentMove} updateMove={updateMove} />
       </div>
-
       <button
         onClick={() => {
           updateAppState("settings");

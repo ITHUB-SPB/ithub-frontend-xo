@@ -24,7 +24,6 @@ export default function Board({ currentMove, updateMove }: BoardProps) {
     updateMove((state) => (state === "o" ? "x" : "o"));
   };
 
-
   return (
     <main className={classes.board}>
       {board.map((field, ix) => (

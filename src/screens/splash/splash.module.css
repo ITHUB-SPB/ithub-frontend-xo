@@ -33,7 +33,7 @@
 .resumeBox {
   display: flex;
   flex-direction: row;
-  background-color: #AD0013;
+  background-color: #ad0013;
   height: 15vh;
   width: fit-content;
   padding: 10px;
@@ -42,7 +42,7 @@
 }
 
 .button {
-  color: #EAD6BE;
+  color: #ead6be;
   background: #121312;
 }
 
