@@ -3,12 +3,14 @@ import { createRoot } from "react-dom/client";
 
 import "./index.css";
 import App from "./App.tsx";
-import { GameContext } from "./context.tsx";
+import { GameContext, StorageContext } from "./context.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <GameContext>
-      <App />
-    </GameContext>
+    <StorageContext>
+      <GameContext>
+        <App />
+      </GameContext>
+    </StorageContext>
   </StrictMode>,
 );

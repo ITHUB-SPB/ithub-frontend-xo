@@ -1,12 +1,13 @@
 .board {
+  --cell: clamp(64px, 12dvmin, 120px);
+
   display: grid;
-  grid-template-columns: repeat(3, 15dvmin);
-  grid-template-rows: repeat(3, 15dvmin);
+  grid-template-columns: repeat(3, var(--cell));
+  grid-template-rows: repeat(3, var(--cell));
   gap: 9px;
-  width: 50dvmin;
-  height: 50dvmin;
-  padding: 90px;
-  border: 20px solid black;
-  box-shadow: -20px 20px black;
-  border-radius: 50px;
+  padding: clamp(14px, 3dvmin, 28px);
+  border: 14px solid black;
+  box-shadow: -14px 14px black;
+  border-radius: 40px;
+  background-color: #ffffff;
 }

@@ -1,0 +1,58 @@
+.player {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.icon {
+  width: 64px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  background-color: #ffffff;
+  border: 4px solid black;
+  border-radius: 14px;
+
+  &:focus {
+    outline: 4px solid #ffd43b;
+  }
+}
+
+.color {
+  width: 56px;
+  height: 52px;
+  padding: 2px;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: 4px solid black;
+  border-radius: 14px;
+}

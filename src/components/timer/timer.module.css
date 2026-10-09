@@ -1,0 +1,38 @@
+.timer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+}
+
+.track {
+  flex: 1;
+  height: 18px;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 4px solid black;
+  border-radius: 12px;
+}
+
+.bar {
+  height: 100%;
+  background-color: #3ddc84;
+  transition: background-color 0.3s;
+}
+
+.danger {
+  background-color: #ff4d4d;
+}
+
+.value {
+  min-width: 2ch;
+  font-size: 28px;
+  font-weight: 900;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dangerText {
+  color: #ff4d4d;
+}
