@@ -1,43 +1,53 @@
-import { useState, useEffect, useContext, type Dispatch, type SetStateAction } from "react";
-import type { AppState, Board, Move, Players } from "@/types";
+import {
+    useEffect,
+    useContext,
+    type Dispatch,
+    type SetStateAction,
+} from "react";
+import type { AppState, Players } from "@/types";
 
 import { BoardComponent, TimerComponent, LegendComponent } from "@/components";
 import { gameContext } from "@/context";
 import classes from "./game.module.css";
 
 type GameScreenProps = {
-  players: Players | null;
-  updateAppState: Dispatch<SetStateAction<AppState>>;
+    players: Players | null;
+    updateAppState: Dispatch<SetStateAction<AppState>>;
 };
 
-function checkWinner(board: Board): Move | null {
-  if (board[0] && board[0] === board[1] && board[1] === board[2]) {
-    return board[0];
-  }
+export default function GameScreen({ updateAppState }: GameScreenProps) {
+    const { status, resetGame } = useContext(gameContext);
 
-  return null;
-}
+    const isGameOver = status === "draw" || status.endsWith("-wins");
 
-export default function GameScreen({ players, updateAppState }: GameScreenProps) {
-  const { board } = useContext(gameContext);
-  const [currentMove, updateMove] = useState<Move>("x");
+    useEffect(() => {
+        if (isGameOver) {
+            updateAppState("results");
+        }
+    }, [isGameOver, updateAppState]);
 
-  useEffect(() => {
-    if (board) {
-      localStorage.setItem("xo__game", JSON.stringify(board));
-    }
-    console.log(checkWinner(board));
-  }, [board]);
+    const handleRestart = () => {
+        resetGame();
+        updateAppState("settings");
+    };
 
-  return (
-    <main className={classes.main}>
-      <h1>XO</h1>
-      <div>
-        <LegendComponent />
-        <BoardComponent currentMove={currentMove} updateMove={updateMove} />
-        <TimerComponent />
-      </div>
-      <button onClick={() => updateAppState("settings")}>Сбросить игру</button>
-    </main>
-  );
+    return (
+        <main className={classes.main}>
+            <h1>XO</h1>
+
+            <div>
+                <LegendComponent />
+                <BoardComponent />
+                <TimerComponent />
+            </div>
+
+            {status === "x-move" && <p>Ход крестиков</p>}
+            {status === "o-move" && <p>Ход ноликов</p>}
+            {status === "x-wins" && <p>Победили крестики</p>}
+            {status === "o-wins" && <p>Победили нолики</p>}
+            {status === "draw" && <p>Ничья</p>}
+
+            <button onClick={handleRestart}>Сбросить игру</button>
+        </main>
+    );
 }
