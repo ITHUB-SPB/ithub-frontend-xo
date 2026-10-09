@@ -1,47 +1,42 @@
-import { useState } from "react";
+import type { CSSProperties } from "react";
 
 import oIcon from "@/assets/o.svg";
 import xIcon from "@/assets/x.svg";
+import { getReadableColor } from "@/game";
+import type { Move, Players } from "@/types";
 import classes from "./legend.module.css";
 
-type PlayerNameProps = {
-  setName: (newName: string) => void;
-  name: string;
+type LegendProps = {
+  players: Players;
+  currentMove: Move | null;
 };
 
-function PlayerName({ name, setName }: PlayerNameProps) {
-  const [isEditing, setEditing] = useState(false);
+const ICONS: Record<Move, string> = { x: xIcon, o: oIcon };
+const MOVES: Move[] = ["x", "o"];
 
-  return (
-    <input
-      onDoubleClick={() => setEditing(true)}
-      size={1}
-      className={classes.input}
-      value={name}
-      readOnly={!isEditing}
-    />
-  );
-}
-
-export default function Legend() {
+export default function Legend({ players, currentMove }: LegendProps) {
   return (
     <section className={classes.legend}>
-      {/* <section style={{ backgroundColor: players?.x.color }}>
-                {players?.x.name} (X) {currentMove === "x" && "active"}
-            </section>
-            <section style={{ backgroundColor: players?.o.color }}>
-                {players?.o.name} (O) {currentMove === "o" && "active"}
-            </section> */}
+      {MOVES.map((move) => {
+        const player = players[move];
+        const isActive = currentMove === move;
+        const style = {
+          "--player-color": player.color,
+          "--player-ink": getReadableColor(player.color),
+        } as CSSProperties;
 
-      <section className={classes.legend__item}>
-        <img src={xIcon} className={classes.legend__icon} />
-        <PlayerName name="Player1" setName={() => {}} />
-      </section>
-
-      <section className={classes.legend__item}>
-        <img src={oIcon} className={classes.legend__icon} />
-        <PlayerName name="Player2" setName={() => {}} />
-      </section>
+        return (
+          <section
+            key={move}
+            className={`${classes.legend__item} ${isActive ? classes.active : classes.inactive}`}
+            style={style}
+          >
+            <img src={ICONS[move]} className={classes.legend__icon} alt={move} />
+            <span className={classes.name}>{player.name}</span>
+            <span className={classes.turn}>{isActive ? "Ваш ход" : "Ожидает"}</span>
+          </section>
+        );
+      })}
     </section>
   );
 }

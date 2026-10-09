@@ -1,43 +1,65 @@
-import { useState, useEffect, useContext, type Dispatch, type SetStateAction } from "react";
-import type { AppState, Board, Move, Players } from "@/types";
+import { useContext, useEffect, useState, type Dispatch, type SetStateAction } from "react";
 
-import { BoardComponent, TimerComponent, LegendComponent } from "@/components";
-import { gameContext } from "@/context";
+import { BoardComponent, DialogComponent, LegendComponent, TimerComponent } from "@/components";
+import { gameContext, storageContext } from "@/context";
+import { GAME_KEY, countMoves, getMover, getRandomFreeIndex } from "@/game";
+import type { AppState, Players } from "@/types";
 import classes from "./game.module.css";
 
 type GameScreenProps = {
-  players: Players | null;
+  players: Players;
   updateAppState: Dispatch<SetStateAction<AppState>>;
 };
 
-function checkWinner(board: Board): Move | null {
-  if (board[0] && board[0] === board[1] && board[1] === board[2]) {
-    return board[0];
-  }
-
-  return null;
-}
-
 export default function GameScreen({ players, updateAppState }: GameScreenProps) {
-  const { board } = useContext(gameContext);
-  const [currentMove, updateMove] = useState<Move>("x");
+  const storage = useContext(storageContext);
+  const { board, status, makeMove, resetGame } = useContext(gameContext);
+  const [isConfirmOpen, setConfirmOpen] = useState(false);
+  const mover = getMover(status);
 
   useEffect(() => {
-    if (board) {
-      localStorage.setItem("xo__game", JSON.stringify(board));
+    if (mover === null) {
+      storage.remove(GAME_KEY);
+      updateAppState("results");
+      return;
     }
-    console.log(checkWinner(board));
-  }, [board]);
+
+    storage.write(GAME_KEY, { move: mover, board });
+  }, [board, mover, storage, updateAppState]);
+
+  const handleExpire = () => {
+    const index = getRandomFreeIndex(board);
+
+    if (index !== null) {
+      makeMove(index);
+    }
+  };
+
+  const handleRestart = () => {
+    storage.remove(GAME_KEY);
+    resetGame();
+    updateAppState("settings");
+  };
 
   return (
     <main className={classes.main}>
-      <h1>XO</h1>
-      <div>
-        <LegendComponent />
-        <BoardComponent currentMove={currentMove} updateMove={updateMove} />
-        <TimerComponent />
-      </div>
-      <button onClick={() => updateAppState("settings")}>Сбросить игру</button>
+      <h1 className={classes.title}>XO</h1>
+      <LegendComponent players={players} currentMove={mover} />
+      <BoardComponent players={players} onSelect={makeMove} />
+      <TimerComponent key={countMoves(board)} paused={isConfirmOpen} onExpire={handleExpire} />
+      <button className="btn" onClick={() => setConfirmOpen(true)}>
+        Начать заново
+      </button>
+      {isConfirmOpen && (
+        <DialogComponent
+          title="Начать заново?"
+          description="Текущая партия будет сброшена, а вы вернётесь к настройке игроков."
+          confirmLabel="Да, сбросить"
+          cancelLabel="Продолжить игру"
+          onConfirm={handleRestart}
+          onCancel={() => setConfirmOpen(false)}
+        />
+      )}
     </main>
   );
 }

@@ -6,4 +6,27 @@
   min-height: 100dvh;
   max-height: 100dvh;
   width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  width: min(100%, 520px);
+  padding: 32px;
+  color: #111;
+  background-color: #ffffff;
+  border: 6px solid black;
+  border-radius: 32px;
+  box-shadow: -12px 12px black;
+}
+
+.title {
+  margin: 0;
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: center;
 }

@@ -1,18 +1,14 @@
-import {
-  useRef,
-  useEffect,
-  type Dispatch,
-  type SetStateAction,
-  type SubmitEvent,
-  type InputEvent,
-} from "react";
+import { useContext, useState, type Dispatch, type FormEvent, type SetStateAction } from "react";
 
-import type { AppState, Move, Players } from "@/types";
+import { PlayerSettingsComponent } from "@/components";
+import { gameContext, storageContext } from "@/context";
+import { DEFAULT_PLAYERS, PLAYERS_KEY } from "@/game";
+import type { AppState, Move, Player, Players } from "@/types";
 import classes from "./settings.module.css";
 
 type SettingsScreenProps = {
-  players: Players | null;
-  setPlayers: Dispatch<SetStateAction<Players | null>>;
+  players: Players;
+  setPlayers: Dispatch<SetStateAction<Players>>;
   updateAppState: Dispatch<SetStateAction<AppState>>;
 };
 
@@ -21,77 +17,46 @@ export default function SettingsScreen({
   setPlayers,
   updateAppState,
 }: SettingsScreenProps) {
-  const inputRef = useRef<HTMLInputElement>(undefined!);
+  const storage = useContext(storageContext);
+  const { resetGame } = useContext(gameContext);
+  const [draft, setDraft] = useState<Players>(players);
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
-  const handleSubmit = (event: SubmitEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const data = new FormData(event.target);
-
-    setPlayers({
-      x: {
-        name: data.get("namePlayer1")!.toString(),
-        color: data.get("colorPlayer1")!.toString(),
-      },
-      o: {
-        name: data.get("namePlayer2")!.toString(),
-        color: data.get("colorPlayer2")!.toString(),
-      },
-    });
-
-    updateAppState("game");
+  const handleChange = (move: Move, player: Player) => {
+    setDraft((current) => ({ ...current, [move]: player }));
   };
 
-  const handlePlayerColorInput = (event: InputEvent<HTMLInputElement>, player: Move) => {
-    setPlayers((currentState) => {
-      if (!currentState) {
-        return currentState;
-      }
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-      const newColor = (event.target as HTMLInputElement).value;
+    const next: Players = {
+      x: { ...draft.x, name: draft.x.name.trim() || DEFAULT_PLAYERS.x.name },
+      o: { ...draft.o, name: draft.o.name.trim() || DEFAULT_PLAYERS.o.name },
+    };
 
-      return {
-        ...currentState,
-        [player]: {
-          ...currentState[player],
-          color: newColor,
-        },
-      };
-    });
+    storage.write(PLAYERS_KEY, next);
+    setPlayers(next);
+    resetGame();
+    updateAppState("progress");
   };
 
   return (
     <main className={classes.main}>
-      <form action="" method="post" onSubmit={handleSubmit}>
-        <h2>Стартовый экран</h2>
-        <section>
-          <input ref={inputRef} type="text" name="namePlayer1" value={players?.x.name} required />
-          <input
-            value={players?.x.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "x");
-            }}
-            type="color"
-            name="colorPlayer1"
-          />
-        </section>
-        <section>
-          <input type="text" name="namePlayer2" value={players?.o.name} required />
-          <input
-            value={players?.o.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "o");
-            }}
-            type="color"
-            name="colorPlayer2"
-          />
-        </section>
-        <button type="submit">Начать</button>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <h2 className={classes.title}>Настройка игроков</h2>
+        <PlayerSettingsComponent
+          move="x"
+          player={draft.x}
+          autoFocus
+          onChange={(player) => handleChange("x", player)}
+        />
+        <PlayerSettingsComponent
+          move="o"
+          player={draft.o}
+          onChange={(player) => handleChange("o", player)}
+        />
+        <button type="submit" className="btn btn--accent">
+          Начать
+        </button>
       </form>
     </main>
   );

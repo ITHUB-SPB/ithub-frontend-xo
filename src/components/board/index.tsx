@@ -1,40 +1,32 @@
-import { useContext, type Dispatch, type SetStateAction } from "react";
+import { useContext } from "react";
 
 import { gameContext } from "@/context";
-import type { Board, Move } from "@/types";
+import type { Players } from "@/types";
+import Field from "../field";
 import classes from "./board.module.css";
 
 type BoardProps = {
-  currentMove: Move;
-  updateMove: Dispatch<SetStateAction<Move>>;
+  players: Players;
+  winLine?: number[] | null;
+  locked?: boolean;
+  onSelect?: (index: number) => void;
 };
 
-export default function Board({ currentMove, updateMove }: BoardProps) {
-  const { board, updateBoard } = useContext(gameContext);
-
-  const handleClick = (fieldIndex: number) => {
-    updateBoard((state) => {
-      return [...state.slice(0, fieldIndex), currentMove, ...state.slice(fieldIndex + 1)];
-      // const newState = [...state]
-      // newState[fieldIndex] = currentMove
-      // return newState
-    });
-
-    updateMove((state) => (state === "o" ? "x" : "o"));
-  };
+export default function GameBoard({ players, winLine = null, locked = false, onSelect }: BoardProps) {
+  const { board } = useContext(gameContext);
 
   return (
-    <main className={classes.board}>
-      {board.map((field, ix) => (
-        <button
-          key={`field-${ix}`}
-          className={classes.field}
-          onClick={() => handleClick(ix)}
-          disabled={Boolean(field)}
-        >
-          {field}
-        </button>
+    <section className={classes.board}>
+      {board.map((cell, index) => (
+        <Field
+          key={`field-${index}`}
+          value={cell}
+          color={cell ? players[cell].color : undefined}
+          highlighted={winLine?.includes(index) ?? false}
+          locked={locked}
+          onClick={() => onSelect?.(index)}
+        />
       ))}
-    </main>
+    </section>
   );
 }
