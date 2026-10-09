@@ -20,6 +20,7 @@
   width: 25vw;
   gap: 10px;
   padding: 6px;
+  min-width: 240px;
 }
 
 .text {
