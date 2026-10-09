@@ -8,6 +8,41 @@
   width: 100%;
 }
 
+.resultsBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background: none;
+  border: 5px solid #121312;
+  border-radius: 15px;
+  padding: 10px;
+  height: fit-content;
+  width: 25vw;
+}
+
+.title {
+  color: #ad0013;
+}
+
+.celeb {
+  color:#ad0013
+}
+
+.newGame {
+  color: #f2dcc9;
+}
+
+.newGame:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 8px 30px #121312;
+}
+
+.main:has(.newGame:hover) {
+  transition: background 1s ease-out;
+  background: #121312;
+}
+
 .logo {
   width: 20vw;
   height: 20dvw;
@@ -22,7 +57,7 @@
   background: #121312;
   /* transform-origin: 0% 50%;
   transition-property: left top; */
-  transition: background 0.7s ease-out;
+  transition: background 0.7s ease-in-out;
 }
 
 .logo:hover {
