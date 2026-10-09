@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useContext,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { useState, useEffect, useContext, type Dispatch, type SetStateAction } from "react";
 import type { AppState, Board, Move, Players } from "@/types";
 
 import { BoardComponent, TimerComponent, LegendComponent } from "@/components";
@@ -41,10 +35,7 @@ function checkWinner(board: Board): Move | null | "draw" {
   return null;
 }
 
-export default function GameScreen({
-  players,
-  updateAppState,
-}: GameScreenProps) {
+export default function GameScreen({ players, updateAppState }: GameScreenProps) {
   const { board, updateBoard, updateStatus } = useContext(gameContext);
   const [currentMove, updateMove] = useState<Move>("x");
 
@@ -58,8 +49,8 @@ export default function GameScreen({
     } else if (result !== null) {
       updateStatus(`${result}-wins`);
     }
-    if(result){
-      updateAppState("results")
+    if (result) {
+      updateAppState("results");
     }
   }, [board, updateStatus]);
 

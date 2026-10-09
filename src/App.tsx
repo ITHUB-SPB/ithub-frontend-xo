@@ -28,7 +28,7 @@ export default function App() {
       <SettingsScreen players={players} setPlayers={setPlayers} updateAppState={updateAppState} />
     ),
     game: <GameScreen players={players} updateAppState={updateAppState} />,
-    results: <ResultsScreen />,
+    results: <ResultsScreen players={players} updateAppState={updateAppState} />,
   };
 
   return screens[appState];
