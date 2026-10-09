@@ -3,6 +3,7 @@ import { useContext, type Dispatch, type SetStateAction } from "react";
 import { gameContext } from "@/context";
 import type { Board, Move } from "@/types";
 import classes from "./board.module.css";
+import Timer from "../timer";
 
 type BoardProps = {
   currentMove: Move;
@@ -22,6 +23,7 @@ export default function Board({ currentMove, updateMove }: BoardProps) {
 
     updateMove((state) => (state === "o" ? "x" : "o"));
   };
+
 
   return (
     <main className={classes.board}>

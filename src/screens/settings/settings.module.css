@@ -38,6 +38,7 @@
 .color {
   background: none;
   border: none;
+  cursor: pointer;
 }
 
 .name {
@@ -49,4 +50,12 @@
 .button {
   color: #ead6be;
   background: #121312;
+}
+
+.playerSettings:has(.color:hover, .name:hover) {
+  transform: scale(1.05);
+}
+
+.button:hover {
+  transform: scale(1.05);
 }

@@ -39,21 +39,14 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
           />
         </>
       ) : (
-        <>
+        <div className={classes.resumeBox}>
           <button
             onClick={() => {
               updateAppState("settings");
             }}
+            className={classes.button}
           >
             Start new game
-          </button>
-
-          <button
-            onClick={() => {
-              updateAppState("idle");
-            }}
-          >
-            Back To Title
           </button>
 
           <button
@@ -61,10 +54,11 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
               updateBoard(savedBoard);
               updateAppState("game");
             }}
+            className={classes.button}
           >
             Continue
           </button>
-        </>
+        </div>
       )}
     </main>
   );

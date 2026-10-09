@@ -18,5 +18,5 @@ export default function Timer() {
     return () => clearInterval(intervalRef.current);
   }, []);
 
-  return <span>{remaining}</span>;
+  return remaining
 }
