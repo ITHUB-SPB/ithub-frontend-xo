@@ -1,9 +1,52 @@
 .main {
-  background-color: #3d7ad6;
+  background-color: #121312;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
   max-height: 100dvh;
   width: 100%;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  background-color: #EAD6BE;
+  border: 2px solid #AD0013;
+  border-radius: 5px;
+  height: 45vh;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 25vw;
+  gap: 10px;
+  padding: 6px;
+}
+
+.text {
+  color: #AD0013;
+}
+
+.playerSettings {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  border-radius: 7px;
+  background-color: #AD0013;
+  padding: 5px;
+}
+
+.color {
+  background: none;
+  border: none;
+}
+
+.name {
+  color: #EAD6BE;
+  background: none;
+  border: none;
+}
+
+.button {
+  color: #EAD6BE;
+  background: #121312;
 }

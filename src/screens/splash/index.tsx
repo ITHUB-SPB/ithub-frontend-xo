@@ -33,8 +33,6 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
     <main className={classes.main}>
       {savedBoard === null ? (
         <>
-          <img src={x} className={classes.bgIconX} />
-          <img src={o} className={classes.bgIconO} />
           <img
             onClick={() => updateAppState("settings")}
             className={classes.logo}
@@ -50,6 +48,14 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
             }}
           >
             Start new game
+          </button>
+
+          <button
+            onClick={() => {
+              updateAppState("idle");
+            }}
+          >
+            Back To Title
           </button>
 
           <button

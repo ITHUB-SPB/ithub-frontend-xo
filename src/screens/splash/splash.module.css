@@ -1,5 +1,5 @@
 .main {
-  background-color: #3d7ad6;
+  background-color: #F2DCC9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,32 +8,28 @@
   width: 100%;
 }
 
+
+
 .logo {
-  width: 39dvw;
+  width: 20vw;
+  height: 20dvw;
   height: auto;
   cursor: pointer;
   transition: all 0.4s ease-out;
+  border-radius: 10px;
+  border: 2px solid #121312;
+}
+
+.main:has(.logo:hover) {
+  background: #121312;
+  /* transform-origin: 0% 50%;
+  transition-property: left top; */
+  transition: background 0.7s ease-out;
 }
 
 .logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  box-shadow: 0px 8px 30px #121312;
 }
 
-.bgIconX,
-.bgIconO {
-  width: 95px;
-  height: auto;
-  filter: blur(11px);
-  position: absolute;
-}
 
-.bgIconX {
-  transform: rotate(-23deg);
-  top: 15dvh;
-  left: 15dvw;
-}
-
-.bgIconO {
-  bottom: 15dvh;
-  right: 15dvw;
-}

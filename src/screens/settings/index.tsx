@@ -52,7 +52,10 @@ export default function SettingsScreen({
     updateAppState("game");
   };
 
-  const handlePlayerColorInput = (event: InputEvent<HTMLInputElement>, player: Move) => {
+  const handlePlayerColorInput = (
+    event: InputEvent<HTMLInputElement>,
+    player: Move,
+  ) => {
     setPlayers((currentState) => {
       if (!currentState) {
         return currentState;
@@ -70,7 +73,10 @@ export default function SettingsScreen({
     });
   };
 
-  const handlePlayerNameChange = (event: ChangeEvent<HTMLInputElement>, player: Move) => {
+  const handlePlayerNameChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    player: Move,
+  ) => {
     setPlayers((currentState) => {
       if (!currentState) {
         return currentState;
@@ -91,43 +97,53 @@ export default function SettingsScreen({
   return (
     <main className={classes.main}>
       <form action="" method="post" onSubmit={handleSubmit}>
-        <h2>Стартовый экран</h2>
-        <section>
-          <input
-            ref={inputRef}
-            type="text"
-            name="namePlayer1"
-            value={players?.x.name}
-            onChange={(event) => handlePlayerNameChange(event, "x")}
-            required
-          />
-          <input
-            value={players?.x.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "x");
-            }}
-            type="color"
-            name="colorPlayer1"
-          />
-        </section>
-        <section>
-          <input
-            type="text"
-            name="namePlayer2"
-            value={players?.o.name}
-            onChange={(event) => handlePlayerNameChange(event, "o")}
-            required
-          />
-          <input
-            value={players?.o.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "o");
-            }}
-            type="color"
-            name="colorPlayer2"
-          />
-        </section>
-        <button type="submit">Начать</button>
+        <div className={classes.box}>
+          <h2 className={classes.text}>GAME SETUP</h2>
+          <section>
+            <div className={classes.playerSettings}>
+              <input
+                ref={inputRef}
+                className={classes.name}
+                type="text"
+                name="namePlayer1"
+                value={players?.x.name}
+                onChange={(event) => handlePlayerNameChange(event, "x")}
+                required
+              />
+              <input
+                className={classes.color}
+                value={players?.x.color}
+                onInput={(event) => {
+                  handlePlayerColorInput(event, "x");
+                }}
+                type="color"
+                name="colorPlayer1"
+              />
+            </div>
+          </section>
+          <section>
+            <div className={classes.playerSettings}>
+              <input
+                className={classes.name}
+                type="text"
+                name="namePlayer2"
+                value={players?.o.name}
+                onChange={(event) => handlePlayerNameChange(event, "o")}
+                required
+              />
+              <input
+                className={classes.color}
+                value={players?.o.color}
+                onInput={(event) => {
+                  handlePlayerColorInput(event, "o");
+                }}
+                type="color"
+                name="colorPlayer2"
+              />
+            </div>
+          </section>
+          <button type="submit" className={classes.button}>Begin</button>
+        </div>
       </form>
     </main>
   );
