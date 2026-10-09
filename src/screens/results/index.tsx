@@ -7,20 +7,27 @@ type ResultScreenProps = {
   players: Players | null;
   updateAppState: Dispatch<SetStateAction<AppState>>;
 };
-import x from "@/assets/x.svg";
-import o from "@/assets/o.svg";
+
 
 import classes from "../splash/splash.module.css";
 
 export default function ResultsScreen({ players, updateAppState }: ResultScreenProps) {
-  const { updateBoard } = useContext(gameContext);
+  const { updateBoard, status } = useContext(gameContext);
+function handleVictory() {
+  const players = JSON.parse(localStorage.getItem("xo__players")!)
+  if (status === "draw") {
+    return "draw"
+  }
+  if (status === "o-wins")
+    return `${players.o.name} wins!!`
+  if (status === "x-wins")
+    return `${players.x.name} wins!!`
+}
 
   return (
     <main className={classes.main}>
       <h2>Результаты</h2>
-      <img src={x} className={classes.bgIcon} />
-      <img src={o} className={classes.bgIcon} />
-
+      <h1>{handleVictory()}</h1>      
       <button
         onClick={() => {
           updateAppState("settings");
