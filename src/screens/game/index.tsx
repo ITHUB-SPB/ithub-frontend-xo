@@ -30,12 +30,12 @@ export default function GameScreen({ players, updateAppState }: GameScreenProps)
 
   return (
     <main className={classes.main}>
+      <TimerComponent />
       <h1>XO</h1>
       <div>
         <LegendComponent />
         <BoardComponent currentMove={currentMove} updateMove={updateMove} />
       </div>
-      <TimerComponent />
 
       <button
         onClick={() => {

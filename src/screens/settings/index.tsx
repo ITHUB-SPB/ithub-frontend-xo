@@ -35,20 +35,19 @@ export default function SettingsScreen({
     const data = new FormData(event.target);
     const storagePlayers = localStorage.getItem("xo__players");
 
-    setPlayers(
-      storagePlayers !== null
-        ? JSON.parse(storagePlayers)
-        : {
-            x: {
-              name: data.get("namePlayer1")!.toString(),
-              color: data.get("colorPlayer1")!.toString(),
-            },
-            o: {
-              name: data.get("namePlayer2")!.toString(),
-              color: data.get("colorPlayer2")!.toString(),
-            },
-          },
-    );
+    if (storagePlayers) {
+      setPlayers(JSON.parse(storagePlayers));
+    }
+    setPlayers({
+      x: {
+        name: data.get("namePlayer1")!.toString(),
+        color: data.get("colorPlayer1")!.toString(),
+      },
+      o: {
+        name: data.get("namePlayer2")!.toString(),
+        color: data.get("colorPlayer2")!.toString(),
+      },
+    });
 
     updateAppState("game");
   };
