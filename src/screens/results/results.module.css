@@ -22,25 +22,3 @@
     box-shadow: 8px 8px black;
     text-align: center;
 }
-
-.dialog h2 {
-    margin-top: 0;
-}
-
-.dialogActions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-}
-
-.dialogActions button {
-    border: 3px solid black;
-    border-radius: 12px;
-    background-color: white;
-    color: black;
-}
-
-.dialogActions button:hover {
-    background-color: #e8eeff;
-}
