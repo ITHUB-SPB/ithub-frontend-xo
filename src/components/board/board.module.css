@@ -1,12 +1,25 @@
 .board {
-  display: grid;
-  grid-template-columns: repeat(3, 15dvmin);
-  grid-template-rows: repeat(3, 15dvmin);
-  gap: 9px;
-  width: 50dvmin;
-  height: 50dvmin;
-  padding: 90px;
-  border: 20px solid black;
-  box-shadow: -20px 20px black;
-  border-radius: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 15dvmin);
+    grid-template-rows: repeat(3, 15dvmin);
+    gap: 9px;
+    width: 50dvmin;
+    height: 50dvmin;
+    padding: 30px;
+    border: 20px solid black;
+    box-shadow: -20px 20px black;
+    border-radius: 50px;
+}
+/* Необходимо скукурузить доску, чтобы в результатах отображалась адекватно :| */
+.compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    width: min(70vw, 300px);
+    height: auto;
+    aspect-ratio: 1;
+    padding: 16px;
+    border-width: 10px;
+    border-radius: 28px;
+    box-shadow: -10px 10px black;
 }

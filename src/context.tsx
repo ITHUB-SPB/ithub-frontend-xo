@@ -1,6 +1,6 @@
 import { createContext, useState, type PropsWithChildren } from "react";
 
-import type { Board, GameStatus, Move } from "@/types";
+import type { Board, GameStatus, Move, SavedGame } from "@/types";
 import { getWinner, isDraw } from "./utils/game";
 
 type GameContextValue = {
@@ -8,7 +8,7 @@ type GameContextValue = {
     status: GameStatus;
     playMove: (index: number) => void;
     resetGame: () => void;
-    restoreGame: (board: Board, move: Move) => void;
+    restoreGame: (savedGame: SavedGame) => void;
 };
 
 export const gameContext = createContext<GameContextValue>(undefined!);
@@ -32,31 +32,39 @@ export function GameContext({ children }: PropsWithChildren) {
             cellIndex === index ? currentMove : cell,
         );
 
-        updateBoard(nextBoard);
-
         const winner = getWinner(nextBoard);
+        const nextStatus: GameStatus = winner
+            ? `${winner}-wins`
+            : isDraw(nextBoard)
+              ? "draw"
+              : currentMove === "x"
+                ? "o-move"
+                : "x-move";
 
-        if (winner) {
-            updateStatus(`${winner}-wins`);
-            return;
+        updateBoard(nextBoard);
+        updateStatus(nextStatus);
+
+        if (nextStatus === "draw" || nextStatus.endsWith("-wins")) {
+            localStorage.removeItem("xo__game");
+        } else {
+            const savedGame: SavedGame = {
+                move: nextStatus === "x-move" ? "x" : "o",
+                board: nextBoard,
+            };
+
+            localStorage.setItem("xo__game", JSON.stringify(savedGame));
         }
-
-        if (isDraw(nextBoard)) {
-            updateStatus("draw");
-            return;
-        }
-
-        updateStatus(currentMove === "x" ? "o-move" : "x-move");
     };
 
     const resetGame = () => {
         updateBoard(Array(9).fill(null));
         updateStatus("x-move");
+        localStorage.removeItem("xo__game");
     };
 
-    const restoreGame = (savedBoard: Board, move: Move) => {
-        updateBoard([...savedBoard]);
-        updateStatus(`${move}-move`);
+    const restoreGame = (savedGame: SavedGame) => {
+        updateBoard([...savedGame.board]);
+        updateStatus(`${savedGame.move}-move`);
     };
 
     return (

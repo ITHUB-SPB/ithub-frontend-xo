@@ -1,98 +1,120 @@
 import {
-  useRef,
-  useEffect,
-  type Dispatch,
-  type SetStateAction,
-  type SubmitEvent,
-  type InputEvent,
+    useRef,
+    useEffect,
+    type Dispatch,
+    type SetStateAction,
+    type FormEvent,
 } from "react";
 
 import type { AppState, Move, Players } from "@/types";
 import classes from "./settings.module.css";
 
 type SettingsScreenProps = {
-  players: Players | null;
-  setPlayers: Dispatch<SetStateAction<Players | null>>;
-  updateAppState: Dispatch<SetStateAction<AppState>>;
+    players: Players;
+    setPlayers: Dispatch<SetStateAction<Players>>;
+    updateAppState: Dispatch<SetStateAction<AppState>>;
 };
 
 export default function SettingsScreen({
-  players,
-  setPlayers,
-  updateAppState,
+    players,
+    setPlayers,
+    updateAppState,
 }: SettingsScreenProps) {
-  const inputRef = useRef<HTMLInputElement>(undefined!);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
 
-  const handleSubmit = (event: SubmitEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
+    const updatePlayer = (
+        player: Move,
+        field: "name" | "color",
+        value: string,
+    ) => {
+        setPlayers((current) => ({
+            ...current,
+            [player]: {
+                ...current[player],
+                [field]: value,
+            },
+        }));
+    };
 
-    const data = new FormData(event.target);
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-    setPlayers({
-      x: {
-        name: data.get("namePlayer1")!.toString(),
-        color: data.get("colorPlayer1")!.toString(),
-      },
-      o: {
-        name: data.get("namePlayer2")!.toString(),
-        color: data.get("colorPlayer2")!.toString(),
-      },
-    });
+        setPlayers((current) => ({
+            x: { ...current.x, name: current.x.name.trim() },
+            o: { ...current.o, name: current.o.name.trim() },
+        }));
 
-    updateAppState("game");
-  };
+        updateAppState("game");
+    };
 
-  const handlePlayerColorInput = (event: InputEvent<HTMLInputElement>, player: Move) => {
-    setPlayers((currentState) => {
-      if (!currentState) {
-        return currentState;
-      }
+    return (
+        <main className={classes.main}>
+            <form onSubmit={handleSubmit}>
+                <h2>Настройка игроков</h2>
 
-      const newColor = (event.target as HTMLInputElement).value;
+                <section>
+                    <label>
+                        Игрок за крестики
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            name="namePlayer1"
+                            value={players.x.name}
+                            onChange={(event) =>
+                                updatePlayer("x", "name", event.target.value)
+                            }
+                            required
+                            maxLength={24}
+                        />
+                    </label>
 
-      return {
-        ...currentState,
-        [player]: {
-          ...currentState[player],
-          color: newColor,
-        },
-      };
-    });
-  };
+                    <label>
+                        Цвет крестиков
+                        <input
+                            type="color"
+                            name="colorPlayer1"
+                            value={players.x.color}
+                            onChange={(event) =>
+                                updatePlayer("x", "color", event.target.value)
+                            }
+                        />
+                    </label>
+                </section>
 
-  return (
-    <main className={classes.main}>
-      <form action="" method="post" onSubmit={handleSubmit}>
-        <h2>Стартовый экран</h2>
-        <section>
-          <input ref={inputRef} type="text" name="namePlayer1" value={players?.x.name} required />
-          <input
-            value={players?.x.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "x");
-            }}
-            type="color"
-            name="colorPlayer1"
-          />
-        </section>
-        <section>
-          <input type="text" name="namePlayer2" value={players?.o.name} required />
-          <input
-            value={players?.o.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "o");
-            }}
-            type="color"
-            name="colorPlayer2"
-          />
-        </section>
-        <button type="submit">Начать</button>
-      </form>
-    </main>
-  );
+                <section>
+                    <label>
+                        Игрок за нолики
+                        <input
+                            type="text"
+                            name="namePlayer2"
+                            value={players.o.name}
+                            onChange={(event) =>
+                                updatePlayer("o", "name", event.target.value)
+                            }
+                            required
+                            maxLength={24}
+                        />
+                    </label>
+
+                    <label>
+                        Цвет ноликов
+                        <input
+                            type="color"
+                            name="colorPlayer2"
+                            value={players.o.color}
+                            onChange={(event) =>
+                                updatePlayer("o", "color", event.target.value)
+                            }
+                        />
+                    </label>
+                </section>
+
+                <button type="submit">Начать</button>
+            </form>
+        </main>
+    );
 }
