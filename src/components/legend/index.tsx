@@ -1,21 +1,37 @@
 import classes from "./legend.module.css";
 
 function handleNameImput(figure: string) {
-    let players = JSON.parse(localStorage.getItem("xo__players")!);
-    const name = players[figure].name
-    console.log(name) 
-    return name
-  }
+  let players = JSON.parse(localStorage.getItem("xo__players")!);
+  const name = players[figure].name;
+  console.log(name);
+  return name;
+}
+
+function handleColorChange(figure: string) {
+  let players = JSON.parse(localStorage.getItem("xo__players")!);
+  let playerColor = players[figure].color;
+  return playerColor;
+}
 
 export default function Legend() {
   return (
     <section className={classes.legend}>
-      <section className={classes.legend__item}>
-        <h1>{handleNameImput("x")}</h1>
+      <section
+        style={{ border: `2px solid ${handleColorChange("x")}` }}
+        className={classes.legend__item}
+      >
+        <h1 style={{ color: handleColorChange("x") }} className={classes.text}>
+          {handleNameImput("x")}
+        </h1>
       </section>
 
-      <section className={classes.legend__item}>
-        <h1>{handleNameImput("o")}</h1>
+      <section
+        style={{ border: `2px solid ${handleColorChange("o")}` }}
+        className={classes.legend__item}
+      >
+        <h1 style={{ color: handleColorChange("o") }} className={classes.text}>
+          {handleNameImput("o")}
+        </h1>
       </section>
     </section>
   );

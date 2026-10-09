@@ -38,6 +38,15 @@ export default function Board({ currentMove, updateMove }: BoardProps) {
     <main className={classes.board}>
       {board.map((field, ix) => (
         <button
+          onMouseOver={(event) => {
+            const currColor = handleColorChange();
+            event.currentTarget.style.transform = "scale(1.05)";
+            event.currentTarget.style.boxShadow = `0px 4px 15px ${currColor}`;
+          }}
+          onMouseOut={(event) => {
+            event.currentTarget.style.transform = "none";
+            event.currentTarget.style.boxShadow = `none`;
+          }}
           key={`field-${ix}`}
           className={classes.field}
           onClick={() => handleClick(ix)}

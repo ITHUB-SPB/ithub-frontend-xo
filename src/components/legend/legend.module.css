@@ -8,27 +8,23 @@
 
 .legend__item {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: center;
   align-items: center;
+  width: fit-content;
+  padding: 4px;
   width: 10dvmin;
+  border-radius: 30px;
 }
 
-.legend__icon {
-  width: 100%;
-  height: auto;
+.text {
+  font-size: 50px;
 }
+/* .legend_item_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 4px;
+} */
 
-.input {
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 32px;
-  width: max-content;
-  min-width: 200px;
-  text-align: center;
-}
 
-.input:read-only {
-  border-color: transparent;
-  cursor: pointer;
-}
