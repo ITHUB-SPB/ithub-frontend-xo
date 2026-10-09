@@ -1,4 +1,11 @@
-import { useState, useEffect, useContext, type Dispatch, type SetStateAction } from "react";
+import {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import type { AppState, Board, Move, Players } from "@/types";
 
 import { BoardComponent, TimerComponent, LegendComponent } from "@/components";
@@ -35,7 +42,10 @@ function checkWinner(board: Board): Move | null | "draw" {
   return null;
 }
 
-export default function GameScreen({ players, updateAppState }: GameScreenProps) {
+export default function GameScreen({
+  players,
+  updateAppState,
+}: GameScreenProps) {
   const { board, updateBoard, updateStatus } = useContext(gameContext);
   const [currentMove, updateMove] = useState<Move>("x");
 
@@ -54,25 +64,27 @@ export default function GameScreen({ players, updateAppState }: GameScreenProps)
     }
   }, [board, updateStatus]);
 
-  const makeRandomMove = () => {
+  const makeRandomMove = useCallback(() => {
     const emptyCells = board
       .map((cell, index) => (cell === null ? index : -1))
       .filter((index) => index !== -1);
 
     if (emptyCells.length === 0) return;
 
-    const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    const randomIndex =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
     const newBoard = [...board];
     newBoard[randomIndex] = currentMove;
 
     updateBoard(newBoard);
     updateMove(currentMove === "x" ? "o" : "x");
-  };
+  }, [board, currentMove, updateBoard]);
 
   return (
     <main className={classes.main}>
-      <TimerComponent onTimeEnd={makeRandomMove} currentMove={currentMove} />
+      <TimerComponent onTimeEnd={makeRandomMove} currentMove={currentMove} />{" "}
+      
       <div>
         <LegendComponent />
         <BoardComponent currentMove={currentMove} updateMove={updateMove} />
