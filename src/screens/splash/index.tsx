@@ -3,8 +3,6 @@ import type { Dispatch, SetStateAction } from "react";
 import type { AppState, Board } from "@/types";
 
 import logo from "@/assets/logo.png";
-import x from "@/assets/x.svg";
-import o from "@/assets/o.svg";
 
 import { gameContext } from "../../context";
 
