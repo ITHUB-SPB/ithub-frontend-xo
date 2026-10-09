@@ -72,7 +72,7 @@ export default function GameScreen({ players, updateAppState }: GameScreenProps)
 
   return (
     <main className={classes.main}>
-      <TimerComponent onTimeEnd={makeRandomMove} currentMove={currentMove} /> <h1>XO</h1>
+      <TimerComponent onTimeEnd={makeRandomMove} currentMove={currentMove} />
       <div>
         <LegendComponent />
         <BoardComponent currentMove={currentMove} updateMove={updateMove} />
