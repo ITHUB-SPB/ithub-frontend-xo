@@ -32,4 +32,22 @@
   box-shadow: 0px 8px 30px #121312;
 }
 
+.resumeBox {
+  display: flex;
+  flex-direction: row;
+  background-color: #AD0013;
+  height: 15vh;
+  width: fit-content;
+  padding: 10px;
+  gap: 10px;
+  border-radius: 5px;
+}
 
+.button {
+  color: #EAD6BE;
+  background: #121312;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}

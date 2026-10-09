@@ -3,8 +3,6 @@ import type { Dispatch, SetStateAction } from "react";
 import type { AppState, Board } from "@/types";
 
 import logo from "@/assets/logo.png";
-import x from "@/assets/x.svg";
-import o from "@/assets/o.svg";
 
 import { gameContext } from "../../context";
 
@@ -41,21 +39,14 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
           />
         </>
       ) : (
-        <>
+        <div className={classes.resumeBox}>
           <button
             onClick={() => {
               updateAppState("settings");
             }}
+            className={classes.button}
           >
             Start new game
-          </button>
-
-          <button
-            onClick={() => {
-              updateAppState("idle");
-            }}
-          >
-            Back To Title
           </button>
 
           <button
@@ -63,10 +54,11 @@ export default function SplashScreen({ updateAppState }: SplashScreenProps) {
               updateBoard(savedBoard);
               updateAppState("game");
             }}
+            className={classes.button}
           >
             Continue
           </button>
-        </>
+        </div>
       )}
     </main>
   );
