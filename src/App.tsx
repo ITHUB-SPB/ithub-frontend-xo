@@ -17,6 +17,19 @@ export default function App() {
   const [players, setPlayers] = useState<Players | null>(null);
 
   useEffect(() => {
+    const storagePlayers = localStorage.getItem("xo__players");
+
+    setPlayers(
+      storagePlayers !== null
+        ? JSON.parse(storagePlayers)
+        : {
+            x: { name: "Игрок 1", color: "salmon" },
+            o: { name: "Игрок 2", color: "magenta" },
+          },
+    );
+  }, []);
+
+  useEffect(() => {
     if (players) {
       localStorage.setItem("xo__players", JSON.stringify(players));
     }

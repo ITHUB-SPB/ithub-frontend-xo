@@ -42,10 +42,7 @@ function checkWinner(board: Board): Move | null | "draw" {
   return null;
 }
 
-export default function GameScreen({
-  players,
-  updateAppState,
-}: GameScreenProps) {
+export default function GameScreen({ players, updateAppState }: GameScreenProps) {
   const { board, updateBoard, updateStatus } = useContext(gameContext);
   const [currentMove, updateMove] = useState<Move>("x");
 
@@ -71,8 +68,7 @@ export default function GameScreen({
 
     if (emptyCells.length === 0) return;
 
-    const randomIndex =
-      emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
     const newBoard = [...board];
     newBoard[randomIndex] = currentMove;
@@ -84,7 +80,6 @@ export default function GameScreen({
   return (
     <main className={classes.main}>
       <TimerComponent onTimeEnd={makeRandomMove} currentMove={currentMove} />{" "}
-      
       <div>
         <LegendComponent />
         <BoardComponent currentMove={currentMove} updateMove={updateMove} />

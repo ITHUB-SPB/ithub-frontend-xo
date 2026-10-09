@@ -1,19 +1,17 @@
 import classes from "./legend.module.css";
 
-function handleNameImput(figure: string) {
-  let players = JSON.parse(localStorage.getItem("xo__players")!);
-  const name = players[figure].name;
-  console.log(name);
-  return name;
-}
-
-function handleColorChange(figure: string) {
-  let players = JSON.parse(localStorage.getItem("xo__players")!);
-  let playerColor = players[figure].color;
-  return playerColor;
-}
-
 export default function Legend() {
+  const players = JSON.parse(localStorage.getItem("xo__players")!);
+
+  function handleNameImput(figure: string) {
+    const name = players[figure].name;
+    return name;
+  }
+
+  function handleColorChange(figure: string) {
+    let playerColor = players[figure].color;
+    return playerColor;
+  }
   return (
     <section className={classes.legend}>
       <section

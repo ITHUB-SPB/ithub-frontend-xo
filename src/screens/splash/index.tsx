@@ -1,6 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import type { AppState, Board } from "@/types";
+import type { AppState, Board, Players } from "@/types";
 
 import logo from "@/assets/logo.png";
 

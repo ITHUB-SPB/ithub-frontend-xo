@@ -5,10 +5,7 @@ type TimerProps = {
   currentMove: string;
 };
 
-export default function Timer({
-  onTimeEnd,
-  currentMove,
-}: TimerProps) {
+export default function Timer({ onTimeEnd, currentMove }: TimerProps) {
   const [remaining, setRemaining] = useState(10);
 
   useEffect(() => {

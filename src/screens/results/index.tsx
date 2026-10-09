@@ -10,10 +10,7 @@ type ResultScreenProps = {
 
 import classes from "../splash/splash.module.css";
 
-export default function ResultsScreen({
-  players,
-  updateAppState,
-}: ResultScreenProps) {
+export default function ResultsScreen({ players, updateAppState }: ResultScreenProps) {
   const { updateBoard, status } = useContext(gameContext);
   function handleVictory() {
     const players = JSON.parse(localStorage.getItem("xo__players")!);

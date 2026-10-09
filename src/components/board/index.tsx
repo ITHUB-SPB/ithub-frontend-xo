@@ -14,11 +14,7 @@ export default function Board({ currentMove, updateMove }: BoardProps) {
 
   const handleClick = (fieldIndex: number) => {
     updateBoard((state) => {
-      return [
-        ...state.slice(0, fieldIndex),
-        currentMove,
-        ...state.slice(fieldIndex + 1),
-      ];
+      return [...state.slice(0, fieldIndex), currentMove, ...state.slice(fieldIndex + 1)];
 
       // const newState = [...state]
       // newState[fieldIndex] = currentMove
