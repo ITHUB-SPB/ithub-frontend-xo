@@ -11,8 +11,8 @@
 .box {
   display: flex;
   flex-direction: column;
-  background-color: #EAD6BE;
-  border: 2px solid #AD0013;
+  background-color: #ead6be;
+  border: 2px solid #ad0013;
   border-radius: 5px;
   height: 45vh;
   align-items: center;
@@ -23,7 +23,7 @@
 }
 
 .text {
-  color: #AD0013;
+  color: #ad0013;
 }
 
 .playerSettings {
@@ -31,7 +31,7 @@
   flex-direction: row;
   gap: 5px;
   border-radius: 7px;
-  background-color: #AD0013;
+  background-color: #ad0013;
   padding: 5px;
 }
 
@@ -42,13 +42,13 @@
 }
 
 .name {
-  color: #EAD6BE;
+  color: #ead6be;
   background: none;
   border: none;
 }
 
 .button {
-  color: #EAD6BE;
+  color: #ead6be;
   background: #121312;
 }
 

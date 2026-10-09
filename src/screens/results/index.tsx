@@ -4,6 +4,7 @@ import o from "@/assets/o.svg";
 import classes from "../splash/splash.module.css";
 
 export default function ResultsScreen() {
+  
   return (
     <main className={classes.main}>
       <h2>Результаты</h2>

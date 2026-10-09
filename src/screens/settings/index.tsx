@@ -52,10 +52,7 @@ export default function SettingsScreen({
     updateAppState("game");
   };
 
-  const handlePlayerColorInput = (
-    event: InputEvent<HTMLInputElement>,
-    player: Move,
-  ) => {
+  const handlePlayerColorInput = (event: InputEvent<HTMLInputElement>, player: Move) => {
     setPlayers((currentState) => {
       if (!currentState) {
         return currentState;
@@ -73,10 +70,7 @@ export default function SettingsScreen({
     });
   };
 
-  const handlePlayerNameChange = (
-    event: ChangeEvent<HTMLInputElement>,
-    player: Move,
-  ) => {
+  const handlePlayerNameChange = (event: ChangeEvent<HTMLInputElement>, player: Move) => {
     setPlayers((currentState) => {
       if (!currentState) {
         return currentState;
@@ -142,7 +136,9 @@ export default function SettingsScreen({
               />
             </div>
           </section>
-          <button type="submit" className={classes.button}>Begin</button>
+          <button type="submit" className={classes.button}>
+            Begin
+          </button>
         </div>
       </form>
     </main>
