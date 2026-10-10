@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 
 import { gameContext } from "./context";
-import { SplashScreen, SettingsScreen, GameScreen, ResultsScreen } from "@/screens";
+import { SettingsScreen, GameScreen, ResultsScreen } from "@/screens";
 import type { AppState, Board, Move, Players } from "@/types";
 
 function checkWinner(board: Board): Move | null {
@@ -46,7 +46,6 @@ export default function App() {
   }, [players]);
 
   const screens = {
-    idle: <SplashScreen updateAppState={updateAppState} />,
     settings: (
       <SettingsScreen players={players} setPlayers={setPlayers} updateAppState={updateAppState} />
     ),

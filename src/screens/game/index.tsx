@@ -3,7 +3,7 @@ import type { AppState, Board, Move, Players } from "@/types";
 
 import { BoardComponent, TimerComponent, LegendComponent } from "@/components";
 import { gameContext } from "@/context";
-import classes from "./game.module.css";
+import classes from "../../styles/game.module.css";
 
 type GameScreenProps = {
   players: Players | null;

@@ -8,7 +8,7 @@ import {
 } from "react";
 
 import type { AppState, Move, Players } from "@/types";
-import classes from "./settings.module.css";
+import classes from "../../styles/settings.module.css"
 
 type SettingsScreenProps = {
   players: Players | null;
