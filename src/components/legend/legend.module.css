@@ -10,14 +10,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: fit-content;
-  padding: 4px;
   width: 10dvmin;
-  border-radius: 30px;
 }
 
 .text {
-  font-size: 50px;
+  font-size: 25px;
 }
 /* .legend_item_box {
   display: flex;

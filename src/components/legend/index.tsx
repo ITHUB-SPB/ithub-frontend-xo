@@ -15,19 +15,17 @@ export default function Legend() {
   return (
     <section className={classes.legend}>
       <section
-        style={{ border: `2px solid ${handleColorChange("x")}` }}
         className={classes.legend__item}
       >
-        <h1 style={{ color: handleColorChange("x") }} className={classes.text}>
+        <h1 style={{ color: handleColorChange("x"), textShadow: `0px 4px 15px ${handleColorChange("x")}` }} className={classes.text}>
           {handleNameImput("x")}
         </h1>
       </section>
 
       <section
-        style={{ border: `2px solid ${handleColorChange("o")}` }}
         className={classes.legend__item}
       >
-        <h1 style={{ color: handleColorChange("o") }} className={classes.text}>
+        <h1 style={{ color: handleColorChange("o"), textShadow: `0px 4px 15px ${handleColorChange("o")}` }} className={classes.text}>
           {handleNameImput("o")}
         </h1>
       </section>
