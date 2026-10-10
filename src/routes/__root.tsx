@@ -1,4 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { GameContext } from "@/context";
 
 export const Route = createRootRoute({
     component: RootComponent,
@@ -6,7 +7,11 @@ export const Route = createRootRoute({
 })
 
 function RootComponent() {
-    return <Outlet />
+    return (
+        <GameContext>
+            <Outlet />
+        </GameContext>
+    )
 }
 
 function NotFoundComponent() {

@@ -1,9 +1,14 @@
+import { createFileRoute } from '@tanstack/react-router'
+
 import x from "@/assets/x.svg";
 import o from "@/assets/o.svg";
+import classes from "../styles/splash.module.css";
 
-import classes from "../../styles/splash.module.css";
+export const Route = createFileRoute('/results')({
+  component: ResultsScreen,
+})
 
-export default function ResultsScreen() {
+function ResultsScreen() {
   return (
     <main className={classes.main}>
       <h2>Результаты</h2>
