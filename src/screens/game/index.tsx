@@ -1,33 +1,13 @@
-import { useState, useEffect, useContext, type Dispatch, type SetStateAction } from "react";
-import type { AppState, Board, Move, Players } from "@/types";
+import { useState } from "react";
 
+import { useBoundStore } from "@/store";
 import { BoardComponent, TimerComponent, LegendComponent } from "@/components";
-import { gameContext } from "@/context";
 import classes from "./game.module.css";
+import type { Move } from "@/types";
 
-type GameScreenProps = {
-  players: Players | null;
-  updateAppState: Dispatch<SetStateAction<AppState>>;
-};
-
-function checkWinner(board: Board): Move | null {
-  if (board[0] && board[0] === board[1] && board[1] === board[2]) {
-    return board[0];
-  }
-
-  return null;
-}
-
-export default function GameScreen({ players, updateAppState }: GameScreenProps) {
-  const { board } = useContext(gameContext);
+export default function GameScreen() {
+  const updateAppState = useBoundStore(store => store.updateAppState)
   const [currentMove, updateMove] = useState<Move>("x");
-
-  useEffect(() => {
-    if (board) {
-      localStorage.setItem("xo__game", JSON.stringify(board));
-    }
-    console.log(checkWinner(board));
-  }, [board]);
 
   return (
     <main className={classes.main}>

@@ -1,27 +1,21 @@
 import {
   useRef,
   useEffect,
-  type Dispatch,
-  type SetStateAction,
   type SubmitEvent,
   type InputEvent,
 } from "react";
 
-import type { AppState, Move, Players } from "@/types";
+import { useBoundStore } from "@/store";
+
+import type { Move } from "@/types";
 import classes from "./settings.module.css";
 
-type SettingsScreenProps = {
-  players: Players | null;
-  setPlayers: Dispatch<SetStateAction<Players | null>>;
-  updateAppState: Dispatch<SetStateAction<AppState>>;
-};
-
-export default function SettingsScreen({
-  players,
-  setPlayers,
-  updateAppState,
-}: SettingsScreenProps) {
+export default function SettingsScreen() {
   const inputRef = useRef<HTMLInputElement>(undefined!);
+
+  const players = useBoundStore((store) => store.players)
+  const setPlayers = useBoundStore((store) => store.setPlayers)
+  const updateAppState = useBoundStore((store) => store.updateAppState)
 
   useEffect(() => {
     inputRef.current.focus();
@@ -48,21 +42,14 @@ export default function SettingsScreen({
   };
 
   const handlePlayerColorInput = (event: InputEvent<HTMLInputElement>, player: Move) => {
-    setPlayers((currentState) => {
-      if (!currentState) {
-        return currentState;
-      }
-
-      const newColor = (event.target as HTMLInputElement).value;
-
-      return {
-        ...currentState,
-        [player]: {
-          ...currentState[player],
-          color: newColor,
-        },
-      };
-    });
+    setPlayers({
+      ...players,
+      [player]: {
+        ...players[player],
+        color: (event.target as HTMLInputElement).value,
+      },
+    }
+    );
   };
 
   return (

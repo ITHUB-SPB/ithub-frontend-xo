@@ -1,4 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
+
+import { useBoundStore } from "@/store";
 import type { AppState } from "@/types";
 
 import logo from "@/assets/logo.png";
@@ -7,11 +9,9 @@ import o from "@/assets/o.svg";
 
 import classes from "./splash.module.css";
 
-type SplashScreenProps = {
-  updateAppState: Dispatch<SetStateAction<AppState>>;
-};
+export default function SplashScreen() {
+  const updateAppState = useBoundStore(store => store.updateAppState)
 
-export default function SplashScreen({ updateAppState }: SplashScreenProps) {
   return (
     <main className={classes.main}>
       <img src={x} className={classes.bgIconX} />
