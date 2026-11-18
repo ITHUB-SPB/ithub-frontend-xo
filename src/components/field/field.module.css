@@ -1,15 +1,37 @@
 .field {
-  background-color: #c9d9fc;
-  border: 8px solid black;
-  border-radius: 16px;
-  cursor: pointer;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 17%;
+  border: 3px solid var(--ink);
+  border-radius: 13px;
+  background: #e1eaff;
+  transition:
+    background 150ms,
+    transform 150ms;
+}
 
-  appearance: none;
-  user-select: none;
+.field:not(:disabled):hover {
+  background: #fff9e9;
+  transform: translateY(-2px);
+}
 
-  &:disabled {
-    color: white;
-    pointer-events: none;
-    background-color: black;
-  }
+.field:disabled {
+  cursor: default;
+}
+
+.field:has(svg) {
+  background: #17294e;
+}
+
+.field svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(2px 3px 0 #0007);
+}
+
+.field.winning {
+  background: #286647;
+  border-color: #9cedae;
 }

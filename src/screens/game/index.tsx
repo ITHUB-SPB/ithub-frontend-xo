@@ -1,43 +1,49 @@
-import { useState, useEffect, useContext, type Dispatch, type SetStateAction } from "react";
-import type { AppState, Board, Move, Players } from "@/types";
+import { useCallback, useContext, useState } from "react";
 
-import { BoardComponent, TimerComponent, LegendComponent } from "@/components";
 import { gameContext } from "@/context";
+import Board from "@/components/board";
+import Legend from "@/components/legend";
+import Timer from "@/components/timer";
+import Dialog from "@/components/dialog";
+import ResetButton from "@/components/reset-button";
 import classes from "./game.module.css";
 
-type GameScreenProps = {
-  players: Players | null;
-  updateAppState: Dispatch<SetStateAction<AppState>>;
-};
+export default function GameScreen() {
+  const { board, status, players, dispatch } = useContext(gameContext);
+  const [showReset, setShowReset] = useState(false);
+  const currentMove = status === "x-move" ? "x" : "o";
+  const moveCount = board.filter((cell) => cell !== null).length;
 
-function checkWinner(board: Board): Move | null {
-  if (board[0] && board[0] === board[1] && board[1] === board[2]) {
-    return board[0];
-  }
-
-  return null;
-}
-
-export default function GameScreen({ players, updateAppState }: GameScreenProps) {
-  const { board } = useContext(gameContext);
-  const [currentMove, updateMove] = useState<Move>("x");
-
-  useEffect(() => {
-    if (board) {
-      localStorage.setItem("xo__game", JSON.stringify(board));
-    }
-    console.log(checkWinner(board));
-  }, [board]);
+  const randomMove = useCallback(() => {
+    const emptyCells = board.flatMap((cell, index) => (cell === null ? [index] : []));
+    if (emptyCells.length === 0) return;
+    const index = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    dispatch({ type: "move", index });
+  }, [board, dispatch]);
 
   return (
     <main className={classes.main}>
-      <h1>XO</h1>
-      <div>
-        <LegendComponent />
-        <BoardComponent currentMove={currentMove} updateMove={updateMove} />
-        <TimerComponent />
-      </div>
-      <button onClick={() => updateAppState("settings")}>Сбросить игру</button>
+      <header className="screen-heading">
+        <p className="eyebrow">Крестики-нолики</p>
+        <h1>Ваш ход!</h1>
+        <p aria-live="polite">Ходит {players[currentMove].name}</p>
+      </header>
+      <Legend />
+      <Board />
+      <Timer key={moveCount} paused={showReset} onExpire={randomMove} />
+      <ResetButton onClick={() => setShowReset(true)} />
+      <p className="hint">Три в ряд по горизонтали, вертикали или диагонали.</p>
+      {showReset && (
+        <Dialog
+          title="Начать заново?"
+          confirmText="Да, начать заново"
+          cancelText="Продолжить игру"
+          onConfirm={() => dispatch({ type: "settings" })}
+          onCancel={() => setShowReset(false)}
+        >
+          Текущая партия будет удалена. Имена и цвета игроков останутся.
+        </Dialog>
+      )}
     </main>
   );
 }

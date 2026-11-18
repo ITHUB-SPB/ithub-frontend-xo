@@ -1,95 +1,211 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Trebuchet MS", Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color: #fff9e9;
+  background: #3d7ad6;
+  --ink: #15213a;
+  --cream: #fff9e9;
+  --yellow: #ffcf24;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100dvh;
-  max-height: 100dvh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-button:hover {
-  border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background-image: radial-gradient(#ffffff12 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 #root {
   width: 100%;
-  height: 100dvh;
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(32px, 6vw, 44px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  text-shadow: -2px 3px 0 #15213a50;
+}
+
+h2 {
+  font-size: 27px;
+  line-height: 1.2;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 5px;
+}
+
+.button {
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  padding: 13px 28px;
+  min-height: 50px;
+  font-weight: 800;
+  color: var(--ink);
+  background: var(--yellow);
+  box-shadow: -4px 4px 0 var(--ink);
+  transition:
+    transform 150ms,
+    box-shadow 150ms;
+}
+
+.button:hover {
+  transform: translate(2px, -2px);
+  box-shadow: -6px 6px 0 var(--ink);
+}
+
+.button:active {
+  transform: translate(-2px, 2px);
+  box-shadow: -2px 2px 0 var(--ink);
+}
+
+.button-secondary {
+  background: var(--cream);
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.screen-heading {
   display: flex;
-  place-items: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
-.logo {
-  height: 40dvh;
-  will-change: filter;
-  transition: filter 300ms;
+.screen-heading > p:last-child {
+  font-size: 14px;
+  color: #e1ecff;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.hint {
+  max-width: 420px;
+  font-size: 12px;
+  text-align: center;
+  color: #e1ecff;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
+.timer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 6px 20px;
+  width: min(100%, 300px);
+  font-size: 12px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+.timer strong {
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer progress {
+  grid-column: 1 / -1;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  background: #285ba9;
+}
+
+.timer progress::-webkit-progress-bar {
+  background: #285ba9;
+}
+
+.timer progress::-webkit-progress-value {
+  background: var(--yellow);
+}
+
+.timer progress::-moz-progress-bar {
+  background: var(--yellow);
+}
+
+.timer-urgent strong {
+  color: #ffe08b;
+}
+
+.timer-urgent progress::-webkit-progress-value {
+  background: #ff9a79;
+}
+
+.timer-urgent progress::-moz-progress-bar {
+  background: #ff9a79;
+}
+
+.dialog {
+  width: min(440px, calc(100% - 40px));
+  padding: 30px;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: -8px 8px 0 var(--ink);
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.dialog::backdrop {
+  background: #101c3bc7;
+  backdrop-filter: blur(6px);
+}
+
+.dialog .eyebrow {
+  color: #45699b;
+  margin-bottom: 12px;
+}
+
+.dialog h2 {
+  margin-bottom: 14px;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.dialog button:focus-visible {
+  outline-color: #3d7ad6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
   }
 }

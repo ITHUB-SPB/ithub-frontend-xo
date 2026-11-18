@@ -1,47 +1,42 @@
-import { useState } from "react";
+import { useContext } from "react";
 
-import oIcon from "@/assets/o.svg";
-import xIcon from "@/assets/x.svg";
+import { gameContext } from "@/context";
+import type { Move, Player } from "@/types";
+import Icon from "@/components/icon";
 import classes from "./legend.module.css";
 
-type PlayerNameProps = {
-  setName: (newName: string) => void;
-  name: string;
+type PlayerInfoProps = {
+  mark: Move;
+  player: Player;
+  active: boolean;
+  playing: boolean;
 };
 
-function PlayerName({ name, setName }: PlayerNameProps) {
-  const [isEditing, setEditing] = useState(false);
-
+function PlayerInfo({ mark, player, active, playing }: PlayerInfoProps) {
   return (
-    <input
-      onDoubleClick={() => setEditing(true)}
-      size={1}
-      className={classes.input}
-      value={name}
-      readOnly={!isEditing}
-    />
+    <div className={`${classes.player} ${playing && !active ? classes.inactive : ""}`}>
+      <Icon mark={mark} color={player.color} className={classes.icon} />
+      <div className={classes.info}>
+        <span className={classes.name}>{player.name}</span>
+        <span className={classes.caption}>
+          {playing && active ? "Сейчас ходит" : mark === "x" ? "Крестики" : "Нолики"}
+        </span>
+      </div>
+    </div>
   );
 }
 
 export default function Legend() {
+  const { players, status, appState } = useContext(gameContext);
+  const playing = appState === "progress";
+
   return (
-    <section className={classes.legend}>
-      {/* <section style={{ backgroundColor: players?.x.color }}>
-                {players?.x.name} (X) {currentMove === "x" && "active"}
-            </section>
-            <section style={{ backgroundColor: players?.o.color }}>
-                {players?.o.name} (O) {currentMove === "o" && "active"}
-            </section> */}
-
-      <section className={classes.legend__item}>
-        <img src={xIcon} className={classes.legend__icon} />
-        <PlayerName name="Player1" setName={() => {}} />
-      </section>
-
-      <section className={classes.legend__item}>
-        <img src={oIcon} className={classes.legend__icon} />
-        <PlayerName name="Player2" setName={() => {}} />
-      </section>
+    <section className={classes.legend} aria-label="Игроки">
+      <PlayerInfo mark="x" player={players.x} active={status === "x-move"} playing={playing} />
+      <span className={classes.versus} aria-hidden="true">
+        VS
+      </span>
+      <PlayerInfo mark="o" player={players.o} active={status === "o-move"} playing={playing} />
     </section>
   );
 }

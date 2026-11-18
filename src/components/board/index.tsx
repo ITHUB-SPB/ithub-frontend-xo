@@ -1,40 +1,25 @@
-import { useContext, type Dispatch, type SetStateAction } from "react";
+import { useContext } from "react";
 
 import { gameContext } from "@/context";
-import type { Board, Move } from "@/types";
+import Field from "@/components/field";
 import classes from "./board.module.css";
 
-type BoardProps = {
-  currentMove: Move;
-  updateMove: Dispatch<SetStateAction<Move>>;
-};
-
-export default function Board({ currentMove, updateMove }: BoardProps) {
-  const { board, updateBoard } = useContext(gameContext);
-
-  const handleClick = (fieldIndex: number) => {
-    updateBoard((state) => {
-      return [...state.slice(0, fieldIndex), currentMove, ...state.slice(fieldIndex + 1)];
-      // const newState = [...state]
-      // newState[fieldIndex] = currentMove
-      // return newState
-    });
-
-    updateMove((state) => (state === "o" ? "x" : "o"));
-  };
+export default function Board() {
+  const { board, players, appState, dispatch, winningCells } = useContext(gameContext);
 
   return (
-    <main className={classes.board}>
-      {board.map((field, ix) => (
-        <button
-          key={`field-${ix}`}
-          className={classes.field}
-          onClick={() => handleClick(ix)}
-          disabled={Boolean(field)}
-        >
-          {field}
-        </button>
+    <div className={classes.board} role="group" aria-label="Игровое поле">
+      {board.map((value, index) => (
+        <Field
+          key={index}
+          value={value}
+          index={index}
+          color={value ? players[value].color : undefined}
+          winning={winningCells.includes(index)}
+          disabled={appState !== "progress"}
+          onClick={() => dispatch({ type: "move", index })}
+        />
       ))}
-    </main>
+    </div>
   );
 }

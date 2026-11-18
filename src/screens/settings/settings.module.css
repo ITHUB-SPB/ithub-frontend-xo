@@ -1,9 +1,120 @@
 .main {
-  background-color: #3d7ad6;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 28px;
   min-height: 100dvh;
-  max-height: 100dvh;
   width: 100%;
+  padding: 45px 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: min(100%, 650px);
+}
+
+.players {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.player {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: -5px 5px var(--ink);
+  background: #285ba9;
+}
+
+.player legend {
+  padding: 4px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.icon {
+  align-self: center;
+  width: 68px;
+  height: 68px;
+  margin: 10px 0 20px;
+  filter: drop-shadow(3px 4px 0 var(--ink));
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.player input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+}
+
+.color {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.color input {
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--cream);
+  cursor: pointer;
+}
+
+.versus {
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--yellow);
+}
+
+@media (max-width: 560px) {
+  .players {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .player {
+    width: min(100%, 340px);
+    padding: 16px 20px;
+  }
+
+  .icon {
+    width: 45px;
+    height: 45px;
+    margin: 0 0 10px;
+  }
+
+  .versus {
+    display: none;
+  }
 }

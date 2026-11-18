@@ -1,98 +1,105 @@
-import {
-  useRef,
-  useEffect,
-  type Dispatch,
-  type SetStateAction,
-  type SubmitEvent,
-  type InputEvent,
-} from "react";
+import { useContext, useState, type SubmitEvent } from "react";
 
-import type { AppState, Move, Players } from "@/types";
+import { gameContext } from "@/context";
+import Icon from "@/components/icon";
+import type { Move, Player } from "@/types";
 import classes from "./settings.module.css";
 
-type SettingsScreenProps = {
-  players: Players | null;
-  setPlayers: Dispatch<SetStateAction<Players | null>>;
-  updateAppState: Dispatch<SetStateAction<AppState>>;
+type PlayerSettingsProps = {
+  mark: Move;
+  player: Player;
+  onChange: (player: Player) => void;
 };
 
-export default function SettingsScreen({
-  players,
-  setPlayers,
-  updateAppState,
-}: SettingsScreenProps) {
-  const inputRef = useRef<HTMLInputElement>(undefined!);
+function PlayerSettings({ mark, player, onChange }: PlayerSettingsProps) {
+  const title = mark === "x" ? "Крестики" : "Нолики";
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+  return (
+    <fieldset className={classes.player}>
+      <legend>{title}</legend>
+      <Icon mark={mark} color={player.color} className={classes.icon} />
+      <label className={classes.label} htmlFor={`name-${mark}`}>
+        Имя игрока
+      </label>
+      <input
+        id={`name-${mark}`}
+        name={`name-${mark}`}
+        type="text"
+        value={player.name}
+        maxLength={30}
+        required
+        autoComplete="off"
+        onChange={(event) => {
+          event.target.setCustomValidity("");
+          onChange({ ...player, name: event.target.value });
+        }}
+      />
+      <label className={classes.color}>
+        <input
+          type="color"
+          name={`color-${mark}`}
+          value={player.color}
+          onChange={(event) => onChange({ ...player, color: event.target.value })}
+        />
+        <span>Цвет {mark === "x" ? "крестиков" : "ноликов"}</span>
+      </label>
+    </fieldset>
+  );
+}
 
-  const handleSubmit = (event: SubmitEvent) => {
+export default function SettingsScreen() {
+  const { players, dispatch } = useContext(gameContext);
+  const [draft, setDraft] = useState(players);
+
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    event.stopPropagation();
 
-    const data = new FormData(event.target);
-
-    setPlayers({
-      x: {
-        name: data.get("namePlayer1")!.toString(),
-        color: data.get("colorPlayer1")!.toString(),
-      },
-      o: {
-        name: data.get("namePlayer2")!.toString(),
-        color: data.get("colorPlayer2")!.toString(),
-      },
-    });
-
-    updateAppState("game");
-  };
-
-  const handlePlayerColorInput = (event: InputEvent<HTMLInputElement>, player: Move) => {
-    setPlayers((currentState) => {
-      if (!currentState) {
-        return currentState;
+    for (const mark of ["x", "o"] as const) {
+      if (!draft[mark].name.trim()) {
+        const input = event.currentTarget.elements.namedItem(`name-${mark}`) as HTMLInputElement;
+        input.setCustomValidity("Введите имя, а не только пробелы.");
+        input.reportValidity();
+        return;
       }
+    }
 
-      const newColor = (event.target as HTMLInputElement).value;
-
-      return {
-        ...currentState,
-        [player]: {
-          ...currentState[player],
-          color: newColor,
-        },
-      };
+    dispatch({
+      type: "start",
+      players: {
+        x: { ...draft.x, name: draft.x.name.trim() },
+        o: { ...draft.o, name: draft.o.name.trim() },
+      },
     });
   };
 
   return (
     <main className={classes.main}>
-      <form action="" method="post" onSubmit={handleSubmit}>
-        <h2>Стартовый экран</h2>
-        <section>
-          <input ref={inputRef} type="text" name="namePlayer1" value={players?.x.name} required />
-          <input
-            value={players?.x.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "x");
-            }}
-            type="color"
-            name="colorPlayer1"
+      <header className="screen-heading">
+        <p className="eyebrow">Перед первым ходом</p>
+        <h1>Кто играет?</h1>
+        <p>Выберите имена и цвета. Крестики начинают!</p>
+      </header>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <div className={classes.players}>
+          <PlayerSettings
+            mark="x"
+            player={draft.x}
+            onChange={(player) => setDraft((current) => ({ ...current, x: player }))}
           />
-        </section>
-        <section>
-          <input type="text" name="namePlayer2" value={players?.o.name} required />
-          <input
-            value={players?.o.color}
-            onInput={(event) => {
-              handlePlayerColorInput(event, "o");
-            }}
-            type="color"
-            name="colorPlayer2"
+          <span className={classes.versus} aria-hidden="true">
+            VS
+          </span>
+          <PlayerSettings
+            mark="o"
+            player={draft.o}
+            onChange={(player) => setDraft((current) => ({ ...current, o: player }))}
           />
-        </section>
-        <button type="submit">Начать</button>
+        </div>
+        <button className="button" type="submit">
+          Начать
+        </button>
       </form>
+      <p className="hint">10 секунд на ход. Не успели? Походит случайная клетка.</p>
     </main>
   );
 }
